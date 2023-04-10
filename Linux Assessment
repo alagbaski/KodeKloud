@@ -2,7 +2,7 @@
 = ip addr show eth1
 
 #To switch to a user on another server
-= ssh -l username ip-address or hostname
+= ssh -l username ip-address or hostname    NB: "user password required"
 
 #To delete a user
 = userdel username / userdel -r username
