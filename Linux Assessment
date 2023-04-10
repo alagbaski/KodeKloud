@@ -1,0 +1,2 @@
+What is IP Address assigned to the physical interface eth1? Save the answer in a new file: /home/bob/physical_ipaddress.
+= ip addr show eth1 - 
