@@ -1,3 +1,6 @@
+#To Change Hostname
+sudo hostnamectl set-hostname newhostname
+
 #What is IP Address assigned to the physical interface eth1
 = ip addr show eth1
 
@@ -6,3 +9,13 @@
 
 #To delete a user
 = userdel username / userdel -r username
+
+#To create a non-interative user
+useradd -s /bin/false username
+
+#To check OS running
+cat /etc/*release" or "uname -a
+
+#To change user shell from bash to bourne
+chsh -s /bin/sh - make require users password
+Also note that "util-linux-user" is the the package responsible for shell packages
