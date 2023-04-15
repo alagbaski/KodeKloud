@@ -19,6 +19,11 @@ useradd -s /bin/false username
 #To check OS running
 cat /etc/*release" or "uname -a
 
+#To check timezone
+timedatectl
+#To Change Timezone
+sudo timedatectl set-timezone America/New_York
+
 #To change user shell from bash to bourne
 chsh -s /bin/sh - make require users password
 Also note that "util-linux-user" is the the package responsible for shell packages
