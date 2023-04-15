@@ -1,6 +1,9 @@
 #To Change Hostname
 sudo hostnamectl set-hostname newhostname
 
+#To look for a filename in a dir/folder
+sudo find /var/ -name filename*
+
 #What is IP Address assigned to the physical interface eth1
 = ip addr show eth1
 
