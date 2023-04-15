@@ -30,3 +30,16 @@ Also note that "util-linux-user" is the the package responsible for shell packag
 
 #To disable direct ssh root login
 sudo vi /etc/ssh/sshd_config file , then edit line: #PermitRootLogin yes to: PermitRootLogin no
+
+#To Configure Apache to listen on port 6200, Also Configure Apache to add some redirects
+Normally apache includes configurations from the etc/apache2/sites-available/ folder, it could have some configuration on there.
+if it doesn't exist, just create a new include on that folder and create the folder. and you will have configurations like this as a configuration's file content:
+<VirtualHost *:6200>
+    ServerName stapp03.stratos.xfusioncorp.com
+    Redirect permanent / http://www.stapp03.stratos.xfusioncorp.com/
+</VirtualHost>
+
+<VirtualHost *:6200>
+    ServerName www.stapp03.stratos.xfusioncorp.com
+    Redirect 302 /blog/ http://www.stapp03.stratos.xfusioncorp.com/news/
+</VirtualHost>
