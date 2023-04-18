@@ -1,40 +1,40 @@
 #To Change Hostname
-sudo hostnamectl set-hostname newhostname
+  sudo hostnamectl set-hostname newhostname
 
 #To look for a filename in a dir/folder
-sudo find /var/ -name filename*
+  sudo find /var/ -name filename*
 
 #What is IP Address assigned to the physical interface eth1
-= ip addr show eth1
-
+  ip addr show eth1
+===========
 #To switch to a user on another server
-= ssh -l username ip-address or hostname    NB: "user password required"
-
+  ssh -l username ip-address or hostname    NB: "user password required"
+===============
 #To delete a user
-= userdel username / userdel -r username
-
+  userdel username / userdel -r username
+============
 #To create a non-interative user
-useradd -s /bin/false username
-
+  useradd -s /bin/false username
+======================
 #To check OS running
 cat /etc/*release" or "uname -a
-
+===============
 #To check timezone
-timedatectl
+   timedatectl
 #To Change Timezone
-sudo timedatectl set-timezone America/New_York
-
+   sudo timedatectl set-timezone America/New_York
+==============
 #To change user shell from bash to bourne
-chsh -s /bin/sh - make require users password
+   chsh -s /bin/sh - make require users password
 Also note that "util-linux-user" is the the package responsible for shell packages
-
+=========================
 #To disable direct ssh root login
-sudo vi /etc/ssh/sshd_config file , then edit line: #PermitRootLogin yes to: PermitRootLogin no
-
+   sudo vi /etc/ssh/sshd_config file , then edit line: #PermitRootLogin yes to: PermitRootLogin no
+======================
 #To Configure Apache to listen on port 6200, Also Configure Apache to add some redirects
 Normally apache includes configurations from the etc/apache2/sites-available/ folder, it could have some configuration on there.
 if it doesn't exist, just create a new include on that folder and create the folder. and you will have configurations like this as a configuration's file content:
-<VirtualHost *:6200>
+ <VirtualHost *:6200>
     ServerName stapp03.stratos.xfusioncorp.com
     Redirect permanent / http://www.stapp03.stratos.xfusioncorp.com/
 </VirtualHost>
@@ -43,7 +43,14 @@ if it doesn't exist, just create a new include on that folder and create the fol
     ServerName www.stapp03.stratos.xfusioncorp.com
     Redirect 302 /blog/ http://www.stapp03.stratos.xfusioncorp.com/news/
 </VirtualHost>
-
-#To find all files owned by the user "anita" in the directory /home/usersdata on App Server 3 and copy them to the /beta directory while preserving the directory structure, you can use the following command:
+======================
+#To find all files owned by the user "anita" in the directory /home/usersdata and copy them to the /beta directory while preserving the directory structure,
+you can use the following command:
 
       find /home/usersdata -type f -user anita -exec cp --parents {} /beta \;
+      
+#NB: The command will use the 'find' command to search for all files (-type f) owned by the user "anita" (-user anita) in the directory /home/usersdata,
+and for each file found, it will use the 'cp' command to copy it to the /beta directory while preserving the directory structure (--parents).
+The {} symbol is a placeholder for the filename found by 'find', and the \; symbol indicates the end of the 'exec' command.
+Also,  note that this command will only copy files owned by the user "anita" and not any directories or subdirectories.
+If you also want to copy directories owned by the user "anita", you can remove the '-type f' option from the command.
