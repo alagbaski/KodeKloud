@@ -1,0 +1,80 @@
+#Create a Puppet programming file games.pp under /etc/puppetlabs/code/environments/production/manifests directory on the Puppet master node i.e on Jump Server.
+Define a class ssh_node1 for agent node 1 i.e App Server 1, ssh_node2 for agent node 2 i.e App Server 2, ssh_node3 for agent node3 i.e App Server 3.
+You will need to generate a new ssh key for thor user on Jump Server, that needs to be added on all App Servers.
+
+Configure a password less SSH connection from puppet master i.e jump host to all App Servers.
+However, please make sure the key is added to the authorized_keys file of each app's sudo user (i.e tony for App Server 1).
+
+SOLUTION:
+   class ssh_node1 {
+  # generate ssh key for thor user
+  exec { 'generate_ssh_key':
+    command => 'ssh-keygen -b 4096 -t rsa -f /home/thor/.ssh/id_rsa -q -N ""',
+    user => 'thor',
+    creates => '/home/thor/.ssh/id_rsa',
+  }
+
+  # copy public key to App Server 1
+  sshkey { 'thor_sshkey':
+    ensure => present,
+    type => 'rsa',
+    key  => file('/home/thor/.ssh/id_rsa.pub'),
+    user => 'tony',
+    host => 'app-server1',
+    target => '/home/tony/.ssh/authorized_keys',
+  }
+}
+
+class ssh_node2 {
+  # generate ssh key for thor user
+  exec { 'generate_ssh_key':
+    command => 'ssh-keygen -b 4096 -t rsa -f /home/thor/.ssh/id_rsa -q -N ""',
+    user => 'thor',
+    creates => '/home/thor/.ssh/id_rsa',
+  }
+
+  # copy public key to App Server 2
+  sshkey { 'thor_sshkey':
+    ensure => present,
+    type => 'rsa',
+    key  => file('/home/thor/.ssh/id_rsa.pub'),
+    user => 'tony',
+    host => 'app-server2',
+    target => '/home/tony/.ssh/authorized_keys',
+  }
+}
+
+class ssh_node3 {
+  # generate ssh key for thor user
+  exec { 'generate_ssh_key':
+    command => 'ssh-keygen -b 4096 -t rsa -f /home/thor/.ssh/id_rsa -q -N ""',
+    user => 'thor',
+    creates => '/home/thor/.ssh/id_rsa',
+  }
+
+  # copy public key to App Server 3
+  sshkey { 'thor_sshkey':
+    ensure => present,
+    type => 'rsa',
+    key  => file('/home/thor/.ssh/id_rsa.pub'),
+    user => 'tony',
+    host => 'app-server3',
+    target => '/home/tony/.ssh/authorized_keys',
+  }
+}
+
+# include classes for each agent node
+include ssh_node1
+include ssh_node2
+include ssh_node3
+###
+In this file, we define three classes: ssh_node1, ssh_node2, and ssh_node3 for each App Server.
+In each class, we use the exec resource to generate an ssh key for the thor user and the sshkey resource to copy the public key to the tony user's authorized_keys file on each App Server.
+
+Finally, we include all the classes to ensure they are executed.
+After creating this file, you can apply it using the following command:
+  
+  sudo /opt/puppetlabs/bin/puppet apply /etc/puppetlabs/code/environments/production/manifests/games.pp
+
+##
+This will set up the password-less SSH connection from the Puppet master node to all the App Servers with the key added to the tony user's authorized_keys file.
