@@ -43,3 +43,7 @@ if it doesn't exist, just create a new include on that folder and create the fol
     ServerName www.stapp03.stratos.xfusioncorp.com
     Redirect 302 /blog/ http://www.stapp03.stratos.xfusioncorp.com/news/
 </VirtualHost>
+
+#To find all files owned by the user "anita" in the directory /home/usersdata on App Server 3 and copy them to the /beta directory while preserving the directory structure, you can use the following command:
+
+      find /home/usersdata -type f -user anita -exec cp --parents {} /beta \;
