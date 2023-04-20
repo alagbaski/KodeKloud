@@ -86,3 +86,14 @@ Save the file and exit the editor.
 #To restart Apache Service
 
    sudo systemctl restart httpd
+========================================================================================
+#The steps to change the default runlevel to boot in GUI mode may vary depending on the operating system being used on the app servers.
+However, the general steps are as follows:
+Enter the command to edit the default runlevel configuration file.
+For example, on a system using systemd, the command may be:
+   
+   sudo systemctl set-default graphical.target
+NB:
+It is important to note that changing the default runlevel can have consequences on the system's behavior and security.
+Therefore, it is advisable to test the changes in a non-production environment before implementing them in a production environment.
+Also, make sure to document any changes made to the system for future reference.
