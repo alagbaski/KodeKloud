@@ -34,6 +34,7 @@ Also note that "util-linux-user" is the the package responsible for shell packag
 #To Configure Apache to listen on port 6200, Also Configure Apache to add some redirects
 Normally apache includes configurations from the etc/apache2/sites-available/ folder, it could have some configuration on there.
 if it doesn't exist, just create a new include on that folder and create the folder. and you will have configurations like this as a configuration's file content:
+
  <VirtualHost *:6200>
     ServerName stapp03.stratos.xfusioncorp.com
     Redirect permanent / http://www.stapp03.stratos.xfusioncorp.com/
@@ -54,3 +55,34 @@ and for each file found, it will use the 'cp' command to copy it to the /beta di
 The {} symbol is a placeholder for the filename found by 'find', and the \; symbol indicates the end of the 'exec' command.
 Also,  note that this command will only copy files owned by the user "anita" and not any directories or subdirectories.
 If you also want to copy directories owned by the user "anita", you can remove the '-type f' option from the command.
+=================================================================================================================
+
+#To hide the version number of the Apache web server, you can modify the Apache configuration file located at /etc/httpd/conf/httpd.conf on the App-Server.
+Open the file in a text editor and locate the following line:
+   
+   ServerTokens OS
+
+Change it to:
+
+   ServerTokens Prod
+
+Also, add the following line to the file:
+
+   ServerSignature Off
+   
+Save the file and exit the editor.
+=====================
+# To disable directory browsing, you can modify the Apache configuration file located at /etc/httpd/conf/httpd.conf on the App-Server.
+Find the following line in the file:
+
+   Options Indexes FollowSymLinks
+
+#Remove "Indexes" from the line, so that it looks like this:
+
+   Options FollowSymLinks
+   
+Save the file and exit the editor.
+====================
+#To restart Apache Service
+
+   sudo systemctl restart httpd
