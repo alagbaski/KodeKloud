@@ -104,3 +104,17 @@ NB:
 It is important to note that changing the default runlevel can have consequences on the system's behavior and security.
 Therefore, it is advisable to test the changes in a non-production environment before implementing them in a production environment.
 Also, make sure to document any changes made to the system for future reference.
+===============================================================================================
+#To install cron-job package, start crond service and add a cron job for root user on a App-Servers
+
+     sudo yum install cronie
+     sudo systemctl start crond
+     
+#Add a cron job for root user to echo "hello" every 5 minutes:
+   
+     sudo crontab -e
+     */5 * * * * echo hello > /tmp/cron_text
+Save and exit the file.
+
+- This will run the cron job every 5 minutes and append "hello" to the file /tmp/cron_text.
+- You can verify that the cron job is running by checking the contents of the file /tmp/cron_text.
