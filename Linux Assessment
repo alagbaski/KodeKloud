@@ -118,3 +118,21 @@ Save and exit the file.
 
 - This will run the cron job every 5 minutes and append "hello" to the file /tmp/cron_text.
 - You can verify that the cron job is running by checking the contents of the file /tmp/cron_text.
+===============================================================================================================================
+#To Delete lines containing a certain word like "copyright" in a linux file having many sentences
+
+     grep -v "copyright" /input_file.txt > /output_file.txt
+
+NB: The original file "input_file.txt" will remain unchanged, while "output_file.txt" will contain all the lines from "input_file.txt",
+except those that contain the word "copyright".
+
+#To replace all occurrence of word "the" to "for" in a linux file having many sentences
+
+     sed 's/\bthe\b/for/g' /input_file.txt > /output_file.txt
+     
+NB: The \b ensures that only the word "the" is replaced, and not words containing "the" as a substring
+
+     sed -i 's/the/for/g' /input_file.txt
+     
+NB: This command will modify the original file "input_file.txt" in-place,
+so make sure to take a backup of the file before running this command if you want to preserve the original contents of the file.
