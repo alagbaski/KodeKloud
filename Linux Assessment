@@ -1,9 +1,8 @@
 #To set a password-less authentication/(ssh) on a Jump-server to other servers
 - Generate a public and private key pair on the jump host using the ssh-keygen command. When prompted for a passphrase, press Enter to leave it blank:
-   
-   ssh-keygen
-   
 - This will generate a public and private key pair in the ~/.ssh directory.
+
+   ssh-keygen
    
 - Copy the public key to the authorized_keys file on each app server. You can use the following command to copy the key to app server
 
