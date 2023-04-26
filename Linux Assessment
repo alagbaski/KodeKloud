@@ -10,7 +10,7 @@
 
 - Test the password-less authentication by running the following command from the jump host
 
-   ssh username@ip_address sudo whoami
+   ssh username@ip_address whoami
 
 - This command should run the 'whoami' command on the app server as the sudo user 'username', without prompting for a password.
    
