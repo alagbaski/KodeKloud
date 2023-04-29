@@ -35,6 +35,9 @@
 ==================================================================================================
 #To switch to a user on another server
   ssh -l username ip-address or hostname    NB: "user password required"
+====================================================================================================
+# To Create a user named siva in App Server 3 without a home directory.
+sudo adduser -r siva
 ===================================================================================================
 #To delete a user
   userdel username / userdel -r username
@@ -54,6 +57,9 @@ cat /etc/*release" or "uname -a
    chsh -s /bin/sh - make require users password
 Also note that "util-linux-user" is the the package responsible for shell packages
 ==================================================================================================
+#To create a user on a App Server. Set expiry date to 2021-02-17 in the Datacenter
+sudo useradd -e 2021-02-17 username
+=================================================================================================
 #To disable direct ssh root login
    sudo vi /etc/ssh/sshd_config file , then edit line: #PermitRootLogin yes to: PermitRootLogin no
 =================================================================================================
@@ -113,6 +119,17 @@ Save the file and exit the editor.
 
    sudo systemctl restart httpd
 ========================================================================================================================
+#Mariadb service is down on the database server
+#Check logs for details of issue
+journalctl -xe | grep mariadb
+#logs shows issue with file ownership and permission issues of /var/lib/mysql file
+#change file ownership and group to mysql user
+sudo chown -R mysql:mysql /var/lib/mysql
+#Now start the mariadb.service service
+sudo systemctl start mariadb.service
+#Check status to confirm functionality
+sudo systemctl status mariadb
+=====================================================================================================================================
 #The steps to change the default runlevel to boot in GUI mode may vary depending on the operating system being used on the app servers.
 However, the general steps are as follows:
 Enter the command to edit the default runlevel configuration file.
@@ -163,7 +180,7 @@ NB: The \b ensures that only the word "the" is replaced, and not words containin
 NB: This command will modify the original file "input_file.txt" in-place,
 so make sure to take a backup of the file before running this command if you want to preserve the original contents of the file.
 ==================================================================================================================================================
-# They have a mail server in Stork DC where they are using postfix mail transfer agent. Postfix service seems to fail.
+#They have a mail server in Stork DC where they are using postfix mail transfer agent. Postfix service seems to fail.
 #Try to identify the root cause and fix it.
 --------------------------------------------------
 #Solution
@@ -180,3 +197,15 @@ vi /etc/postfix/main.cf file
 #save file and restart service
 sudo systemctl restart postfix
 =========================================================================================================================================================
+#To Install SElinux package on server
+#Update yum package first
+sudo yum update
+#Install the selinux dependencies
+sudo yum install policycoreutils policycoreutils-python setools setools-console setroubleshoot
+#Install selinux
+yum install selinux-policy selinux-policy-targeted
+#Enable selinux in the /etc/selinux/config by changing SELINUX=disabled to SELINUX=enforcing
+#Reboot server to complete status
+#Check selinux status with;
+sudo sestatus
+============================================================================================================================================================
