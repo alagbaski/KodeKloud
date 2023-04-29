@@ -162,3 +162,21 @@ NB: The \b ensures that only the word "the" is replaced, and not words containin
      
 NB: This command will modify the original file "input_file.txt" in-place,
 so make sure to take a backup of the file before running this command if you want to preserve the original contents of the file.
+==================================================================================================================================================
+# They have a mail server in Stork DC where they are using postfix mail transfer agent. Postfix service seems to fail.
+#Try to identify the root cause and fix it.
+--------------------------------------------------
+#Solution
+#First check the postfix configuration syntax file for any error
+sudo postfix check
+#I got these two errors
+#1)postfix: warning: /etc/postfix/main.cf, line 135: overriding earlier entry: inet_interfaces=all
+#2)postfix: fatal: parameter inet_interfaces: no local interface found for ::1
+#For one, the error message is a warning that the "inet_interfaces" parameter has been defined more than once in the main.cf file and we need to remove
+#the duplicate entry by editing the /etc/postfix/main.cf file.
+vi /etc/postfix/main.cf file
+#search for inet_interfaces and delete the duplicate entry leaving the one with inet_interfaces = localhost
+#Then under # Enable IPv4, and IPv6 if supported, set inet_protocols = ipv4
+#save file and restart service
+sudo systemctl restart postfix
+=========================================================================================================================================================
