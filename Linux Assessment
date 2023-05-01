@@ -48,6 +48,9 @@ sudo adduser -r siva
 #To check OS running
 cat /etc/*release" or "uname -a
 =================================================================================================
+#To Set banner / motd
+Paste the message into /etc/issue, /etc/issue.net for banner then /etc/motd for motd.
+=======================================================================================================
 #To check timezone
    timedatectl
 #To Change Timezone
