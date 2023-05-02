@@ -1,0 +1,102 @@
+#Task One:
+A Dockerfile is available on the 'controlplane' node at the location: '/root/nginx'. Build a docker image using this Dockerfile with the tag 'kodekloud/nginx:custom'
+
+SOLUTION
+- Navigate to the directory where the Dockerfile is located
+  cd /root/nginx
+- Run the following command to build the Docker image with the desired tag
+  docker build -t kodekloud/nginx:custom .
+  
+  NB: The -t option is used to specify the tag for the image, which in this case is kodekloud/nginx:custom.
+  The . at the end of the command specifies that the build context is the current directory.
+  Once the image is built, you can use the 'docker images' command to confirm that the 'kodekloud/nginx:custom' image has been created.
+============================================================================================================================================
+#Task Two:
+To create a new namespace called "development" and create a pod called "dev-app" inside this namespace with the image "nginx:latest",
+you can use the following YAML manifest.
+
+<!-- apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dev-app
+  namespace: development
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest 
+    --> 
+- To create the namespace and the pod, you can save the above YAML code into a file
+   Run (kubectl apply -f filename.yaml)
+================================================================================================================================================
+#Task Three:
+A deployment called test-app is created in the default namespace. Update this deployment so that:
+- There are in total, 3 replicas running at any time
+- The deployment strategy is set to Recreate
+
+SOLUTION:
+ - To update the "test-app" deployment in the default namespace to have 3 replicas and use the "Recreate" deployment strategy, you can use the following
+ - You can save this YAML code into a file i.e dev-test-app.yaml
+    
+  <!--  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-app
+  namespace: default
+spec:
+  replicas: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: test-app
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        -->
+        
+- This will update the "test-app" deployment to have 3 replicas and use the "Recreate" deployment strategy
+     kubectl apply -f filename.yaml
+=================================================================================================================================================
+#Task Four:
+Create a PersistentVolume called test-pv with the following specifications:
+Access Mode: RWX
+Capacity: 1Gi
+HostPath: /mnt/data
+Reclaim Policy: Delete
+
+SOLUTION:
+- To create the PersistentVolume, you can save the below YAML code into a file
+
+<!--
+    apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/data
+    type: Directory
+  persistentVolumeReclaimPolicy: Delete
+-->
+
+- This will create a PersistentVolume named "test-pv" with the specified storage capacity, access mode, host path, and reclaim policy. 
+   kubectl apply -f filename.yaml
+   
+   NB: Note that the host path should be a valid path on the node where the PersistentVolume is being created.
+====================================================================================================================================
