@@ -203,10 +203,8 @@ sudo systemctl restart postfix
 #To Install SElinux package on server
 #Update yum package first
 sudo yum update
-#Install the selinux dependencies
-sudo yum install policycoreutils policycoreutils-python setools setools-console setroubleshoot
-#Install selinux
-yum install selinux-policy selinux-policy-targeted
+#Install selinux and it dependencies
+sudo yum install -y policycoreutils policycoreutils-python selinux-policy selinux-policy-targeted setools setools-console mcstrans setroubleshoot
 #Enable selinux in the /etc/selinux/config by changing SELINUX=disabled to SELINUX=enforcing
 #Reboot server to complete status
 #Check selinux status with;
