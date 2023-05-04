@@ -210,3 +210,35 @@ sudo yum install -y policycoreutils policycoreutils-python selinux-policy selinu
 #Check selinux status with;
 sudo sestatus
 ============================================================================================================================================================
+# An App Server is having some DNS resolution issues, so we want to add some additional DNS nameservers on this server.
+As a temporary fix we have decided to go with Google public DNS (ipv4). Please make appropriate changes on this server.
+-------------------------------------------------------------------------------------------------------------------------------
+Edit the (/etc/resolv.conf) file and add the google DNS
+sudo vi /etc/resolv.conf
+- Then add at the top of the file ;
+   nameserver 8.8.8.8
+   nameserver 8.8.4.4
+- Save and exit editor
+- Test the DNS resolution by running the following command
+   nslookup DomainName
+   
+//Alternative
+- To make the changes persistent across reboots, you may need to modify the (/etc/systemd/resolved.conf) file
+     [Resolve]
+   DNS=8.8.8.8 8.8.4.4
+- Save and exit editor
+- Restart the systemd-resolved service to apply the changes
+   sudo systemctl restart systemd-resolved
+=================================================================================================================================================================
+#To create a script to install postfix package on all the application servers.
+Also, once installed, make sure it is enabled to start during boot.
+-----------------------------------------------------------------------
+#!/bin/bash
+read -sp 'Enter your password: ' PASSWORD
+echo $PASSWORD | sudo -S yum update -y
+echo $PASSWORD | sudo -S yum install httpd -y
+sleep 30
+echo $PASSWORD | sudo -S sed -i 's/inet_protocols = all/inet_protocols = ipv4/g' /etc/postfix/main.cf
+echo $PASSWORD | sudo -S systemctl enable postfix
+echo $PASSWORD | sudo -S systemctl status postfix
+===========================================================================================================================================================================
