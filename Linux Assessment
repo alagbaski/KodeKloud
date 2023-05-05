@@ -111,17 +111,11 @@ Save the file and exit the editor.
 ===================================================================================================================
 # To disable directory browsing, you can modify the Apache configuration file located at /etc/httpd/conf/httpd.conf on the App-Server.
 Find the following line in the file:
-
    Options Indexes FollowSymLinks
-
 #Remove "Indexes" from the line, so that it looks like this:
-
-   Options FollowSymLinks
-   
-Save the file and exit the editor.
-=============================================================================================================
+   Options FollowSymLinks   
+#Save the file and exit the editor.
 #To restart Apache Service
-
    sudo systemctl restart httpd
 ========================================================================================================================
 #Mariadb service is down on the database server
@@ -187,34 +181,31 @@ so make sure to take a backup of the file before running this command if you wan
 ==================================================================================================================================================
 #They have a mail server in Stork DC where they are using postfix mail transfer agent. Postfix service seems to fail.
 #Try to identify the root cause and fix it.
---------------------------------------------------
-#Solution
 #First check the postfix configuration syntax file for any error
-sudo postfix check
+    sudo postfix check
 #I got these two errors
 #1)postfix: warning: /etc/postfix/main.cf, line 135: overriding earlier entry: inet_interfaces=all
 #2)postfix: fatal: parameter inet_interfaces: no local interface found for ::1
 #For one, the error message is a warning that the "inet_interfaces" parameter has been defined more than once in the main.cf file and we need to remove
 #the duplicate entry by editing the /etc/postfix/main.cf file.
-vi /etc/postfix/main.cf file
+    vi /etc/postfix/main.cf file
 #search for inet_interfaces and delete the duplicate entry leaving the one with inet_interfaces = localhost
 #Then under # Enable IPv4, and IPv6 if supported, set inet_protocols = ipv4
 #save file and restart service
-sudo systemctl restart postfix
+    sudo systemctl restart postfix
 =========================================================================================================================================================
 #To Install SElinux package on server
 #Update yum package first
-sudo yum update
+    sudo yum update
 #Install selinux and it dependencies
-sudo yum install -y policycoreutils policycoreutils-python selinux-policy selinux-policy-targeted setools setools-console mcstrans setroubleshoot
+    sudo yum install -y policycoreutils policycoreutils-python selinux-policy selinux-policy-targeted setools setools-console mcstrans setroubleshoot
 #Enable selinux in the /etc/selinux/config by changing SELINUX=disabled to SELINUX=enforcing
 #Reboot server to complete status
 #Check selinux status with;
-sudo sestatus
+    sudo sestatus
 ============================================================================================================================================================
 # An App Server is having some DNS resolution issues, so we want to add some additional DNS nameservers on this server.
 As a temporary fix we have decided to go with Google public DNS (ipv4). Please make appropriate changes on this server.
--------------------------------------------------------------------------------------------------------------------------------
 Edit the (/etc/resolv.conf) file and add the google DNS
 sudo vi /etc/resolv.conf
 - Then add at the top of the file ;
@@ -234,7 +225,6 @@ sudo vi /etc/resolv.conf
 =================================================================================================================================================================
 #To create a script to install postfix package on all the application servers.
 Also, once installed, make sure it is enabled to start during boot.
------------------------------------------------------------------------
 #!/bin/bash
 read -sp 'Enter your password: ' PASSWORD
 echo $PASSWORD | sudo -S yum update -y
@@ -244,3 +234,19 @@ echo $PASSWORD | sudo -S sed -i 's/inet_protocols = all/inet_protocols = ipv4/g'
 echo $PASSWORD | sudo -S systemctl enable postfix
 echo $PASSWORD | sudo -S systemctl status postfix
 ===========================================================================================================================================================================
+#On storage server a private and public keys were stored /home/*_key.asc. Use those keys to perform the following actions.
+#Encrypt /home/encrypt_me.txt to /home/encrypted_me.asc.
+#Decrypt /home/decrypt_me.asc to /home/decrypted_me.txt. (Passphrase for decryption and encryption is kodekloud).
+#Seeing that the files to use belong to root user then it is advisable to switch to root user first.
+    sudo -i
+#We can now create a key id and import it for the recipient
+    cd /home
+    gpg --import private_key.asc; gpg --import public_key.asc #This creates a key id for the recipient
+#we can view the imported keys using;
+    gpg --list-keys
+#use the created key to encrypt the file
+    gpg --encrypt --recipient "kodekloud@kodekloud.com" --output encrypted_me.asc encrypt_me.txt
+#To decrypt the file
+    gpg --output decrypted_me.txt --decrypt decrypt_me.asc
+#enter passphrase
+====================================================================================================================================================================
