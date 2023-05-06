@@ -213,7 +213,9 @@ sudo vi /etc/resolv.conf
    nameserver 8.8.4.4
 - Save and exit editor
 - Test the DNS resolution by running the following command
-   nslookup DomainName
+   nslookup example.com
+            OR
+   dig example.com
    
 //Alternative
 - To make the changes persistent across reboots, you may need to modify the (/etc/systemd/resolved.conf) file
@@ -249,4 +251,40 @@ echo $PASSWORD | sudo -S systemctl status postfix
 #To decrypt the file
     gpg --output decrypted_me.txt --decrypt decrypt_me.asc
 #enter passphrase
+====================================================================================================================================================================
+#To install httpd package on an App Server using yum and configure it to run on 6400 port.
+#Create an index.html file under Apache's default document root i.e /var/www/html and add below given content in it.: "Welcome to the Future!"
+#Configure Apache to enable below mentioned headers:
+#X-XSS-Protection header with value 1; mode=block
+#X-Frame-Options header with value SAMEORIGIN
+#X-Content-Type-Options header with value nosniff
+#Note: You can test using curl on the given app server as LBR URL will not work for this task.
+#Install httpd and configure port using this script
+  #!/bin/bash
+  read -sp 'Enter your password: ' PASSWORD
+  echo $PASSWORD | sudo -S yum update -y
+  echo $PASSWORD | sudo -S yum install httpd -y
+  sleep 20
+  echo $PASSWORD | sudo sed -i 's/^Listen 80$/Listen 8081/' /etc/httpd/conf/httpd.conf
+  echo $PASSWORD | sudo -S systemctl start httpd
+  echo $PASSWORD | sudo -S systemctl enable httpd
+  echo $PASSWORD | sudo -S systemctl status httpd
+#To add the content into /var/www/html/index.html, create an index.html file in the path /var/www/html/
+  sudo touch /var/www/html/index.html
+#Paste the content into it.
+   <!DOCTYPE html>
+   <html>
+   <head>
+	   <title>Welcome to the Future!</title>
+   </head>
+   <body>
+	   <h1>Welcome to the Future!</h1>
+   </body>
+   </html>
+#To configure Apache to mention the headers, vi into /etc/httpd/conf/httpd.conf and search for the section with "<Directory "/var/www/html">"
+#Input the details in that section and save
+   Header set X-XSS-Protection "1; mode=block"
+   Header set X-Frame-Options "SAMEORIGIN"
+   Header set X-Content-Type-Options "nosniff"
+#Restart httpd service then run (curl -v localhost:port) to verify result.
 ====================================================================================================================================================================
