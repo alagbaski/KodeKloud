@@ -306,11 +306,13 @@ echo $PASSWORD | sudo -S systemctl status postfix
 #We then have to Create a repository configuration file named epel_local.repo in the /etc/yum.repos.d/
      sudo vi /etc/yum.repos.d/epel_local.repo
 #Paste the following content in it
-   [epel_local]
-   name=Local Yum Repo
-   baseurl=file:///packages/downloaded_rpms/
-   enabled=1
-   gpgcheck=0
+
+[epel_local]
+name=Local Yum Repo
+baseurl=file:///packages/downloaded_rpms/
+enabled=1
+gpgcheck=0
+
 #Save and close.
 #We can now install samba with yum.
    sudo yum install samba -y
