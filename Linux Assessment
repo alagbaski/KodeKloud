@@ -314,8 +314,8 @@ enabled=1
 gpgcheck=0
 
 #Save and close.
-#We can now install httpd with yum.
-   sudo yum install httpd -y
+#We can now install httpd with yum for the newly created repo.
+   sudo yum install httpd --enablerepo=yum_local
 ========================================================================================================================================
 #We have a backup management application UI hosted on the backup server in the DC.
 #That backup management application code is deployed under Apache on the backup server itself, and Nginx is running as a reverse proxy on the same server.
