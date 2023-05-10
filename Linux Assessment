@@ -295,7 +295,24 @@ echo $PASSWORD | sudo -S systemctl status postfix
 #To configure haproxy with logrotate as required, edit /etc/logrotate.d/haproxy and input the required parameter.
    sudo vi /etc/logrotate.d/haproxy
 #change daily to monthly and change rotate from the default 10 to 3. Save and exit.
-===========================================================================================================================================
+========================================================================================================================================
+#We have a backup management application UI hosted on the backup server in the DC.
+#That backup management application code is deployed under Apache on the backup server itself, and Nginx is running as a reverse proxy on the same server.
+#Apache and Nginx ports are 8088 and 8098, respectively. We have iptables firewall installed on this server, make the appropriate changes to fulfill the requirements mentioned below:
+#We want to open all incoming connections to Nginx's port and block all incoming connections to Apache's port, also make sure rules are permanent.
+//SOLUTION:
+- To allow incoming connections to Nginx's port(8098), run the command below:
+   sudo iptables -A INPUT -p tcp --dport 8098 -j ACCEPT
+This command adds a new rule to allow incoming TCP traffic on port 8098.
+
+- To block incoming connections to Apache's port(8088), run the command below:
+   sudo iptables -A INPUT -p tcp --dport 8088 -j DROP
+This command adds a new rule to (drop/block) incoming TCP traffic on port 8088.
+
+- To save iptables rules permanently, run the command below:
+   sudo /sbin/iptables-save > /etc/sysconfig/iptables
+NB: This command may require you to switch to the root-user for proper file excution permission.
+=====================================================================================================================================================================
 #To configure a local yum repository on a Backup Server as per details given below.
 #We have some packages already present at location /packages/downloaded_rpms/ on the Backup Server.
 #Create a yum repo named yum_local and make sure to set Repository ID to yum_local. Configure it to use package's location /packages/downloaded_rpms/.
@@ -316,21 +333,4 @@ gpgcheck=0
 #Save and close.
 #We can now install httpd with yum for the newly created repo.
    sudo yum install httpd --enablerepo=yum_local
-========================================================================================================================================
-#We have a backup management application UI hosted on the backup server in the DC.
-#That backup management application code is deployed under Apache on the backup server itself, and Nginx is running as a reverse proxy on the same server.
-#Apache and Nginx ports are 8088 and 8098, respectively. We have iptables firewall installed on this server, make the appropriate changes to fulfill the requirements mentioned below:
-#We want to open all incoming connections to Nginx's port and block all incoming connections to Apache's port, also make sure rules are permanent.
-//SOLUTION:
-- To allow incoming connections to Nginx's port(8098), run the command below:
-   sudo iptables -A INPUT -p tcp --dport 8098 -j ACCEPT
-This command adds a new rule to allow incoming TCP traffic on port 8098.
-
-- To block incoming connections to Apache's port(8088), run the command below:
-   sudo iptables -A INPUT -p tcp --dport 8088 -j DROP
-This command adds a new rule to (drop/block) incoming TCP traffic on port 8088.
-
-- To save iptables rules permanently, run the command below:
-   sudo /sbin/iptables-save > /etc/sysconfig/iptables
-NB: This command may require you to switch to the root-user for proper file excution permission.
-=====================================================================================================================================================================
+========================================================================================================================
