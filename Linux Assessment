@@ -74,13 +74,16 @@ if it doesn't exist, just create a new include on that folder and create the fol
 
  <VirtualHost *:6200>
     ServerName stapp03.stratos.xfusioncorp.com
-    Redirect permanent / http://www.stapp03.stratos.xfusioncorp.com/
+    Redirect 301 / http://www.stapp03.stratos.xfusioncorp.com/
 </VirtualHost>
 
 <VirtualHost *:6200>
     ServerName www.stapp03.stratos.xfusioncorp.com
     Redirect 302 /blog/ http://www.stapp03.stratos.xfusioncorp.com/news/
 </VirtualHost>
+
+#Restart httpd service
+   sudo systemctl restart httpd
 =============================================================================================================
 #To find all files owned by the user "anita" in the directory /home/usersdata and copy them to the /beta directory while preserving the directory structure,
 you can use the following command:
