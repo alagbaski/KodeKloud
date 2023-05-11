@@ -1,53 +1,37 @@
-# Create a bash script for taking websites backup.
-They have a static website running on App-Server 3 in the Datacenter, and the bash script should be named 'beta_backup.sh'
-(Also remember to place the script under /scripts directory on App Server 3)
+# Create a bash script named ecommerce_backup.sh which should accomplish the following tasks for taking websites backup.
+They have a static website running on App-Server 2 in the Datacenter.
+(Also remember to place the script under /scripts directory on specified App Server)
+- Create a zip archive named xfusioncorp_ecommerce.zip of /var/www/html/ecommerce directory
+- Save the archive in /backup/ on App Server 2.
+  This is a temporary storage, as backups from this location will be clean on weekly basis.
+  Therefore, we also need to save this backup archive on Nautilus Backup Server.
+- Copy the created archive to Nautilus Backup Server server in /backup/ location.
+- Make sure script won't ask for password while copying the archive file. Additionally, the respective server user must be able to run it.
+  
+  #!/bin/bash
 
-     #!/bin/bash
+# Create a zip archive of ecommerce directory
+zip -r xfusioncorp_ecommerce.zip /var/www/html/ecommerce
 
-# create a timestamp for the backup file
-timestamp=$(date +%Y-%m-%d_%H-%M-%S)
-
-# create a zip archive of the beta directory
-cd /var/www/html/
-zip -r xfusioncorp_beta_${timestamp}.zip beta
-
-# save the archive in /backup/
-mv xfusioncorp_beta_${timestamp}.zip /backup/
-
-# copy the archive to Nautilus Backup Server using scp
-scp -o "StrictHostKeyChecking no" /backup/xfusioncorp_beta_${timestamp}.zip \
-    nautilus@<backup_server_ip>:/backup/
-
-# make sure the archive is readable by the server user
-chmod 644 /backup/xfusioncorp_beta_${timestamp}.zip
-
-NB:
-Note that you will need to replace <backup_server_ip> with the actual IP address or hostname of the backup server.
-Also, make sure to save the script under the /scripts directory on App Server 3, and to make it executable using chmod +x beta_backup.sh.
-
-//Alternative:
-
-      #!/bin/bash
-
-# Create a timestamp for the filename
-timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
-
-# Create the zip archive
-cd /var/www/html
-zip -r xfusioncorp_beta_$timestamp.zip beta
-
-# Save the archive on App Server 3
-mkdir -p /backup
-cp xfusioncorp_beta_$timestamp.zip /backup
+# Save the archive in /backup/ on App Server 2
+mv xfusioncorp_ecommerce.zip /backup/
 
 # Copy the archive to Nautilus Backup Server
-sshpass -p 'your_password_here' scp xfusioncorp_beta_$timestamp.zip username@nautilus-backup-server:/backup/
+scp /backup/xfusioncorp_ecommerce.zip nautilus-backup-user@server-ip-addr:/backup/
 
-# Clean up the archive on App Server 3
-rm xfusioncorp_beta_$timestamp.zip
-
+- Save and exit the editior
 NB:
-To use this script, save it as /scripts/beta_backup.sh on App Server 3 and make it executable using the command chmod +x beta_backup.sh.
-You will need to replace your_password_here with the password for the Nautilus Backup Server user account, and username with the actual username of the user account.
-You can also modify the file paths if necessary.
+# Make sure script won't ask for password while copying the archive file
+# To achieve this, we need to set up passwordless SSH login between the two servers.
+# Here is a summary of the steps:
+# - On App Server 2, generate a new SSH key pair for the user who will run the script
+#   (e.g. banner) using the command: ssh-keygen -t rsa
+# - Copy the public key to Nautilus Backup Server using the command:
+#   ssh-copy-id username@nautilus_backup_server
+# - Test the passwordless login using the command: ssh username@nautilus_backup_server
+#   If successful, the script won't ask for password during the "scp" command.
+
+# To make sure the script is executable by the respective server user
+  sudo chmod 755 scriptname.sh
+- Then run the script.
 =====================================================================================================================================
