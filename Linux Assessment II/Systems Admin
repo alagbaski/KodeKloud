@@ -4,8 +4,8 @@ They have a static website running on App-Server 2 in the Datacenter.
 - Create a zip archive named xfusioncorp_ecommerce.zip of /var/www/html/ecommerce directory
 - Save the archive in /backup/ on App Server 2.
   This is a temporary storage, as backups from this location will be clean on weekly basis.
-  Therefore, we also need to save this backup archive on Nautilus Backup Server.
-- Copy the created archive to Nautilus Backup Server server in /backup/ location.
+  Therefore, we also need to save this backup archive on the Backup Server.
+- Copy the created archive to the Backup Server in /backup/ location.
 - Make sure script won't ask for password while copying the archive file. Additionally, the respective server user must be able to run it.
   
   #!/bin/bash
@@ -16,7 +16,7 @@ zip -r xfusioncorp_ecommerce.zip /var/www/html/ecommerce
 # Save the archive in /backup/ on App Server 2
 mv xfusioncorp_ecommerce.zip /backup/
 
-# Copy the archive to Nautilus Backup Server
+# Copy the archive to the Backup Server
 scp /backup/xfusioncorp_ecommerce.zip nautilus-backup-user@server-ip-addr:/backup/
 
 - Save and exit the editior
@@ -26,9 +26,9 @@ NB:
 # Here is a summary of the steps:
 # - On App Server 2, generate a new SSH key pair for the user who will run the script
 #   (e.g. banner) using the command: ssh-keygen -t rsa
-# - Copy the public key to Nautilus Backup Server using the command:
-#   ssh-copy-id username@nautilus_backup_server
-# - Test the passwordless login using the command: ssh username@nautilus_backup_server
+# - Copy the public key to the Backup Server using the command:
+#   ssh-copy-id username@nautilus_backup_server_addr
+# - Test the passwordless login using the command: ssh username@nautilus_backup_server_addr
 #   If successful, the script won't ask for password during the "scp" command.
 
 # To make sure the script is executable by the respective server user
