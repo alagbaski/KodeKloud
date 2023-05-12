@@ -341,3 +341,15 @@ gpgcheck=0
 #We can now install httpd with yum for the newly created repo.
    sudo yum install httpd --enablerepo=yum_local
 ========================================================================================================================
+#Find all similar files and copy them to a safe location for further investigation. Accomplish the task as per the following requirements:
+- On App Server 3 at location /var/www/html/beta find out all files (not directories) having .css extension.
+- Copy all those files along with their parent directory structure to location /beta on same server.
+- Please make sure not to copy the entire /var/www/html/beta directory content.
+
+//SOLUTION:
+Run this command
+
+sudo find /var/www/html/beta -type f -name "*.css" -exec cp --parents {} /beta \;
+
+NB: Make sure user has SUDO privilleges or you can as well run command as root user
+===========================================================================================================================
