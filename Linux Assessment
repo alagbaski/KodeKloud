@@ -308,15 +308,17 @@ echo $PASSWORD | sudo -S systemctl status postfix
 //SOLUTION:
 - To allow incoming connections to Nginx's port(8098), run the command below:
    sudo iptables -A INPUT -p tcp --dport 8098 -j ACCEPT
-This command adds a new rule to allow incoming TCP traffic on port 8098.
 
 - To block incoming connections to Apache's port(8088), run the command below:
    sudo iptables -A INPUT -p tcp --dport 8088 -j DROP
-This command adds a new rule to (drop/block) incoming TCP traffic on port 8088.
 
 - To save iptables rules permanently, run the command below:
    sudo /sbin/iptables-save > /etc/sysconfig/iptables
 NB: This command may require you to switch to the root-user for proper file excution permission.
+#Restart Iptable service to apply the rules
+   systemctl restart iptables
+#You can confirm the rules we just added using;
+   iptables -L -n
 =====================================================================================================================================================================
 #To configure a local yum repository on a Backup Server as per details given below.
 #We have some packages already present at location /packages/downloaded_rpms/ on the Backup Server.
