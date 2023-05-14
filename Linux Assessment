@@ -293,13 +293,13 @@ echo $PASSWORD | sudo -S systemctl status postfix
    Header set X-Content-Type-Options "nosniff"
 #Restart httpd service then run (curl -v localhost:port) to verify result.
 ====================================================================================================================================================================
-#To install haproxy package in an app servers.
-#Using logrotate configure haproxy logs rotation to monthly and keep only 3 rotated logs.
+#To install squid package in an app servers.
+#Using logrotate configure squid logs rotation to monthly and keep only 3 rotated logs.
 #To install haproxy
-   sudo yum install haproxy -y
+   sudo yum install squid -y
 #To configure haproxy with logrotate as required, edit /etc/logrotate.d/haproxy and input the required parameter.
-   sudo vi /etc/logrotate.d/haproxy
-#change daily to monthly and change rotate from the default 10 to 3. Save and exit.
+   sudo vi /etc/logrotate.d/squid
+#change weekly to monthly and change rotate from the default 5 to 3. Save and exit.
 ========================================================================================================================================
 #We have a backup management application UI hosted on the backup server in the DC.
 #That backup management application code is deployed under Apache on the backup server itself, and Nginx is running as a reverse proxy on the same server.
