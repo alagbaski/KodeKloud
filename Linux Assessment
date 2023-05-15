@@ -353,3 +353,31 @@ sudo find /var/www/html/beta -type f -name "*.css" -exec cp --parents {} /beta \
 
 NB: Make sure user has SUDO privilleges or you can as well run command as root user
 ===========================================================================================================================
+Install and configure nginx on App Server 3. On App Server 3 there is a self signed SSL certificate and key present at location /tmp/nautilus.crt and /tmp/nautilus.key.
+#Move them to some appropriate location and deploy the same in Nginx. Create an index.html file with content Welcome! under Nginx document root.
+#For final testing try to access the App Server 3 link (either hostname or IP) from jump host using curl command. For example curl -Ik https://<app-server-ip>/.
+------------------------------------------------------------------------------------------------------
+#Install nginx
+sudo yum install epel-release -y
+sudo yum install nginx -y
+#Move certificates to appropriate location
+sudo mkdir -p /etc/nginx/ssl
+sudo mv /tmp/nautilus.crt /etc/nginx/ssl/
+sudo mv /tmp/nautilus.key /etc/nginx/ssl/
+#Configure nginx.
+sudo vi /etc/nginx/nginx.conf
+#Uncomment the https section and edit the certificate and key lines to the correct location we copied them to.
+ssl_certificate /etc/nginx/ssl/nautilus.crt;
+ssl_certificate_key /etc/nginx/ssl/nautilus.key;
+#Also add this inside that block. 
+location / {
+        root /usr/share/nginx/html;
+        index index.html;
+    }
+#Navigate to /usr/share/nginx/html and delete the index.html symbolic link then create a new index.html and add "Welcome!"
+cd /usr/share/nginx/html
+rm -f index.html
+echo "Welcome!" > index.html
+#Save the file and restart nginx
+sudo systemctl restart nginx
+=====================================================================================================================================================================================
