@@ -91,6 +91,9 @@ NB: Restart service to implement changes
 you can use the following command:
 
       find /home/usersdata -type f -user anita -exec cp --parents {} /beta \;
+
+#To know the numbers of files having (.php) extension in the /var/www/html/ecommerce directory    
+      find /var/www/html/ecommerce -type f -name "*.php" | wc -l
       
 #NB: The command will use the 'find' command to search for all files (-type f) owned by the user "anita" (-user anita) in the directory /home/usersdata,
 and for each file found, it will use the 'cp' command to copy it to the /beta directory while preserving the directory structure (--parents).
