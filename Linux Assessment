@@ -68,21 +68,21 @@ sudo useradd -e 2021-02-17 username
 NB: Restart service to implement changes
     sudo systemctl restart sshd
 =================================================================================================
-#To Configure Apache to listen on port 6200, Also Configure Apache to add some redirects
+#To Configure Apache to listen on port 8087, Also Configure Apache to add some redirects
 #Normally apache includes configurations from the etc/apache2/sites-available/ folder, it could have some configuration on there.
 #If it doesn't exist, just create a new include on that folder and create the folder. and you will have configurations like this as a configuration's file content:
 #We need to edit the apache configuration file in /etc/httpd/conf/httpd.conf
    sudo vi /etc/httpd/conf/httpd.conf
 #Write the VirtualHost block to redirect the sites as required after the last line of the configuration file.
- <VirtualHost *:6200>
-    ServerName stapp03.stratos.xfusioncorp.com
-    Redirect 301 / http://www.stapp03.stratos.xfusioncorp.com/
+<VirtualHost *:8087>
+    ServerName stapp01.stratos.xfusioncorp.com
+    Redirect 301 / http://www.stapp01.stratos.xfusioncorp.com:8087/
 </VirtualHost>
 
-<VirtualHost *:6200>
-    ServerName www.stapp03.stratos.xfusioncorp.com
-    Redirect 302 /blog/ http://www.stapp03.stratos.xfusioncorp.com/news/
-</VirtualHost>
+<VirtualHost *:8087>
+    ServerName www.stapp01.stratos.xfusioncorp.com
+    Redirect 302 /blog/ http://www.stapp01.stratos.xfusioncorp.com:8087/news/
+</VirtualHost> 
 
 #Restart httpd service
    sudo systemctl restart httpd
