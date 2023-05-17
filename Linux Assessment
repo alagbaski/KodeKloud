@@ -372,15 +372,23 @@ sudo vi /etc/nginx/nginx.conf
 #Uncomment the https section and edit the certificate and key lines to the correct location we copied them to.
 ssl_certificate /etc/nginx/ssl/nautilus.crt;
 ssl_certificate_key /etc/nginx/ssl/nautilus.key;
+
+//OPTIONAL:
 #Also add this inside that block. 
 location / {
         root /usr/share/nginx/html;
         index index.html;
     }
+    
 #Navigate to /usr/share/nginx/html and delete the index.html symbolic link then create a new index.html and add "Welcome!"
 cd /usr/share/nginx/html
-rm -f index.html
-echo "Welcome!" > index.html
-#Save the file and restart nginx
+sudo rm -f index.html
+sudo vi index.html
+#Save the file
+#Set permission to rwx for all
+sudo chmod 777 index.html
+#Restart nginx
 sudo systemctl restart nginx
+#Exit to the jump server and run
+curl -Ik https://<app-server-ip>/
 =====================================================================================================================================================================================
