@@ -398,3 +398,11 @@ sudo systemctl restart nginx
 #Exit to the jump server and run
 curl -Ik https://<app-server-ip>/
 =====================================================================================================================================================================================
+#To give user "james" sudo access on all app servers on the Datacnter
+   sudo vi /etc/sudoers
+#Look for the comment section that says 'add user to run all commands', add the following line under the wheel% tag
+   james ALL=(ALL) NOPASSWD:ALL
+#Save and exit editior
+#OR just run this command to do it automatically
+   sudo echo "james ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/james
+=========================================================================================================================================================
