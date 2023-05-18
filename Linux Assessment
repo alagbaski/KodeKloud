@@ -101,21 +101,27 @@ The {} symbol is a placeholder for the filename found by 'find', and the \; symb
 Also,  note that this command will only copy files owned by the user "anita" and not any directories or subdirectories.
 If you also want to copy directories owned by the user "anita", you can remove the '-type f' option from the command.
 =================================================================================================================
-
 #To hide the version number of the Apache web server, you can modify the Apache configuration file located at /etc/httpd/conf/httpd.conf on the App-Server.
 Open the file in a text editor and locate the following line:
-   
    ServerTokens OS
-
 Change it to:
-
    ServerTokens Prod
-
 Also, add the following line to the file:
-
    ServerSignature Off
-   
 Save the file and exit the editor.
+              OR
+#vi into the /etc/httpd/conf/httpd.conf
+sudo vi /etc/httpd/conf/httpd.conf
+#To configure Apache web server to hide version number, search for the line with "ServerTokens" and add "Prod" in front of it. If it does not exist before, then add a new
+#line with "ServerTokens Prod".
+#To disable directory browser listing on the /var/www/html/beta directory, look for the <Directory> section that contains /var/www/html/beta. If it does not exist, add a new
+#section:
+<Directory "/var/www/html/beta">
+    Options -Indexes
+</Directory>
+#Save the file
+#Restart httpd
+sudo systemctl restart httpd
 ===================================================================================================================
 # To disable directory browsing, you can modify the Apache configuration file located at /etc/httpd/conf/httpd.conf on the App-Server.
 Find the following line in the file:
