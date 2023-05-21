@@ -391,3 +391,50 @@ curl -Ik https://<app-server-ip>/
 #OR just run this command to do it automatically
    sudo echo "james ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/james
 =========================================================================================================================================================
+#To set-up a common email server in Stork DC server using postfix as mail transfer agent and dovecot as an IMAP/POP3 server.
+#Install and configure postfix on Stork DC mail server. Create an email account javed@stratos.xfusioncorp.com identified by (8FmzjvFU6S).
+#Set its mail directory to /home/javed/Maildir. Install and configure dovecot on the same server.
+
+- First install the packages.
+sudo yum install postfix -y
+sudo yum install dovecot -y
+- Then modifiy postfix.
+sudo vi /etc/postfix/main.cf
+- Add the following configurations:
+myhostname = mail.stratos.xfusioncorp.com
+mydomain = stratos.xfusioncorp.com
+myorigin = $mydomain
+inet_interfaces = all
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+home_mailbox = Maildir/
+- Save and exit
+- Create mail user account and set maildir ownership.
+sudo useradd -m javed
+sudo passwd javed #Add the password provided in the task when prompted to enter password in this case: 8FmzjvFU6S
+sudo mkdir /home/javed/Maildir
+sudo chown -R javed:javed /home/javed/Maildir
+sudo chmod -R 700 /home/javed/Maildir
+- Configure created user in Postfix Virtual Mailbox.
+echo "javed@stratos.xfusioncorp.com javed/Maildir/" | sudo tee -a /etc/postfix/vmailbox
+- Then we configure Dovecot.
+sudo vi /etc/dovecot/dovecot.conf
+- Paste the following lines in it.
+listen = *
+mail_location = maildir:/home/%u/Maildir
+auth_username_format = %u
+- Save and quit.
+- Additioal configuration for Dovecot.
+sudo vi /etc/dovecot/conf.d/10-auth.conf
+- Search for "#disable_plaintext_auth = yes" and change the "yes" to "no".
+sudo vi /etc/dovecot/conf.d/10-ssl.conf
+- Search for "ssl = required" and change it to "ssl = yes".
+- Generate SSL for dovecot
+sudo openssl req -new -x509 -days 365 -nodes -out /etc/pki/dovecot/certs/dovecot.pem -keyout /etc/pki/dovecot/private/dovecot.pem
+- The above command will bring up other prompt, just keep pressing enter until the end of the prompt.
+- Set ownership permission.
+sudo chown -R dovecot:dovecot /etc/pki/dovecot
+sudo chmod 400 /etc/pki/dovecot/private/dovecot.pem
+- Finally restart services for Postfix and Dovecot.
+sudo systemctl restart postfix
+sudo systemctl restart dovecot
+==============================================================================================================================================================
