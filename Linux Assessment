@@ -438,3 +438,24 @@ sudo chmod 400 /etc/pki/dovecot/private/dovecot.pem
 sudo systemctl restart postfix
 sudo systemctl restart dovecot
 ==============================================================================================================================================================
+#To install tomcat server on the App Server using yum. Configure it to run on port 5002.
+#Deploy the ROOT.war file located at /tmp on the Jump Server to the tomcat server and make sure the webpage works directly on base URL.
+#Example: Without specifying any sub-directory anything like this http://URL/ROOT .
+
+#Install the package on the app server
+sudo yum install tomcat -y
+#Modify the tomcat configuration file
+sudo vi /etc/tomcat/server.xml
+#Identify the tag/block in the file and edit appropriately
+<Connector port="5002" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+           redirectPort="8443" />
+#Save and exit
+#Restart service
+sudo systemctl restart tomcat
+#Deploy the .war file from the Jump server
+scp /tmp/ROOT.war steve@172.16.238.11:/tmp
+#SSH into the app/tomcat server and execute the following commands:
+sudo cp /tmp/ROOT.war /var/lib/tomcat/webapps
+sudo systemctl restart tomcat
+=============================================================================================================================================================================
