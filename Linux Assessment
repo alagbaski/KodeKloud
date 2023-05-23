@@ -459,3 +459,28 @@ scp /tmp/ROOT.war steve@172.16.238.11:/tmp
 sudo cp /tmp/ROOT.war /var/lib/tomcat/webapps
 sudo systemctl restart tomcat
 =============================================================================================================================================================================
+#To identify fix the issue of a faulty app-host. Also, make sure Apache is running on port 6400 on all app servers.
+#Make sure Apache service is up and running on all app hosts in the Datacenter.
+
+#Check for service status.
+sudo systemctl status httpd
+sudo httpd -t  OR  netstat -tuln | grep port_id
+#The command above is to check for the service status and to also troubleshoot the configuration file of the service to know how to go about the fixing of the service.
+#In this case app-server1:
+- Could not reliably determine the server's fully qualified domain name.
+- There is another process already using port 6200, preventing Apache from binding to that port.
+#To address this issue, you can follow these steps:
+sudo vi /etc/httpd/conf/httpd.conf
+#Search for the 'ServerName' directive in the file. Uncomment the line if it is commented out and modify it to look like this:
+ServerName stapp01.stratos.xfusioncorp.com
+#Save and exit.
+#To identify the process preventing Apache from using port:6400, we met have to install the (lsof) package first.
+sudo yum install lsof -y
+sudo lsof -i :<port_id>
+sudo kill PID
+#We can as well use another method to stop the service temporarily in this case which was [sendmail] protocol that was preventing Apache on port 6400.
+sudo systemctl stop sendmail  
+- But however keep in mind that stopping sendmail may affect email functionality if it is being used by your system.
+#Restart httpd service
+sudo systemctl restart httpd
+==================================================================================================================================================================================
