@@ -484,3 +484,28 @@ sudo systemctl stop sendmail
 #Restart httpd service
 sudo systemctl restart httpd
 ==================================================================================================================================================================================
+#Install iptables and all its dependencies on each app host, block incoming port 3001 on all app-host for everyone except for LBR host.
+#Make sure the rules remain, even after system reboot.
+
+#!/bin/bash
+#Installing iptables and it dependencies.
+sudo yum install iptables iptables-services -y
+sleep 10
+sudo systemctl start iptables
+sudo systemctl enable iptables
+#Block incoming traffic on port 3001 for all except for the LBR-host
+sudo iptables -I INPUT -p tcp --dport 3001 -j DROP;sudo iptables -I INPUT -p tcp -s LBR-IP-ADDRESS --dport 3001 -j ACCEPT
+#Switch to sudo-user
+sudo -i
+
+#The script ends with a switch to root user because the execution of the remaining task will require proper file excution permission that above sudo privileges.
+#To save the rules permanently for iptables.
+sudo iptables-save > /etc/sysconfig/iptables
+#Restart the service package
+sudo systemctl restart iptables
+sudo systemctl status iptables
+#To list the rules configured for iptables
+sudo iptables -L -n
+//NB: Just incase there was a mistake in the rules configured and you want to delete a line in the rules.
+sudo iptables -D INPUT <line-no>
+=================================================================================================================================================================================
