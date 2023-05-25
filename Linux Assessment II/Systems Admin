@@ -35,3 +35,86 @@ NB:
   sudo chmod 755 scriptname.sh
 - Then run the script.
 =====================================================================================================================================
+#Create an SFTP user yousuf and set its password to ksH85UJjhb.
+#Password authentication should be enabled for this user.
+#Set its ChrootDirectory to /var/www/app.
+#SFTP user should only be allowed to make SFTP connections.
+
+- The Script below should handle the task.
+#!/bin/bash
+echo "collecting environmental variables"
+sleep 3
+echo "Please provide the app server password for sudo access"
+read -sp "server password: " serverpass
+echo "Please provide SFTP user username"
+read -p "SFTP user's username: " username
+echo "Please provide SFTP user's password"
+read -sp "Input SFTP password: " password
+echo "Creating SFTP user's details..."
+sleep 3
+#Create the SFTP user and assign password
+echo $serverpass | sudo adduser $username
+echo $password | sudo passwd $username --stdin
+echo "SFTP user created successfully"
+echo "Creating Chroot Directory and Permission assigment..."
+sleep 3
+#Create Chroot Directory and assign permissions
+sudo mkdir -p /var/www/app
+sudo chown -R root:root /var/www/app
+sudo chmod -R 755 /var/www/app
+echo "Chroot directory created and permission assignment successful"
+#Configure SFTP access and restart SSH service
+sudo tee -a /etc/ssh/sshd_config << EOF
+Match User $username
+        ChrootDirectory /var/www/app
+        ForceCommand internal-sftp
+        X11Forwarding no
+        AllowTcpForwarding no
+        PasswordAuthentication yes
+        AllowAgentForwarding no
+        PermitTunnel no
+EOF
+sudo systemctl restart sshd
+sleep 5
+if [ $? -eq 0 ]
+then echo "SFTP configurations successful"
+else
+echo "Some issues with SFTP configurations"
+fi
+====================================================================================================================================================================
+#Install and configure PostgreSQL database on Nautilus database server.
+#Create a database user kodekloud_gem and set its password to dCV3szSGNA.
+#Create a database kodekloud_db3 and grant full permissions to user kodekloud_gem on this database.
+#Make appropriate settings to allow all local clients (local socket connections) to connect to the kodekloud_db3 database through kodekloud_gem user using md5 method
+(Please do not try to encrypt password with md5sum).
+#At the end its good to test the db connection using these new credentials from root user or server's sudo user.
+
+#Update yum package and Install Postgresql
+sudo yum update -y
+sudo yum install -y postgresql-server
+#Initialize, Start and Enable the Database Service
+sudo postgresql-setup initdb
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+#Switch to the PostgreSQL user
+sudo -u postgres psql
+#Create db user, assign password, create database and privileges
+CREATE USER kodekloud_gem WITH PASSWORD 'dCV3szSGNA';
+CREATE DATABASE kodekloud_db3;
+GRANT ALL PRIVILEGES ON DATABASE kodekloud_db3 TO kodekloud_gem;
+#Configure db access for local client connection
+sudo vi /var/lib/pgsql/data/pg_hba.conf
+#Search for the line that has "# "local" is for Unix domain socket connections only"
+#Comment out the existing "local" entry and add:
+local   kodekloud_db3    kodekloud_gem    md5
+#Save file and exit then restart db service.
+sudo systemctl restart postgresql
+#Test db connection with root user
+#Switch to root user
+sudo -i
+#Connet to database with the precreated credentials
+psql -U kodekloud_gem -d kodekloud_db3
+#Input password (dCV3szSGNA)
+#We ca run a simple command to verify
+SELECT current_database();
+================================================================================================================================================================================
