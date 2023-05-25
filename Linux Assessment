@@ -477,14 +477,15 @@ ServerName stapp01.stratos.xfusioncorp.com
 #To identify the process preventing Apache from using port:6400, we met have to install the (lsof) package first.
 sudo yum install lsof -y
 sudo lsof -i :<port_id>
-sudo kill PID
+sudo kill Process-ID
 #We can as well use another method to stop the service temporarily in this case which was [sendmail] protocol that was preventing Apache on port 6400.
 sudo systemctl stop sendmail  
 - But however keep in mind that stopping sendmail may affect email functionality if it is being used by your system.
 #Restart httpd service
 sudo systemctl restart httpd
 ==================================================================================================================================================================================
-#Install iptables and all its dependencies on each app host, block incoming port 3001 on all app-host for everyone except for LBR host.
+#Install iptables and all its dependencies on each app host.
+#Block incoming port 3001 on all app-host for everyone except for LBR host.
 #Make sure the rules remain, even after system reboot.
 
 #!/bin/bash
@@ -498,7 +499,7 @@ sudo iptables -I INPUT -p tcp --dport 3001 -j DROP;sudo iptables -I INPUT -p tcp
 #Switch to sudo-user
 sudo -i
 
-#The script ends with a switch to root user because the execution of the remaining task will require proper file excution permission that above sudo privileges.
+#The script ends with a switch to root user because the execution of the remaining task will require proper file excution permission that's above sudo privileges.
 #To save the rules permanently for iptables.
 sudo iptables-save > /etc/sysconfig/iptables
 #Restart the service package
