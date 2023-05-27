@@ -83,9 +83,9 @@ echo "Some issues with SFTP configurations"
 fi
 ====================================================================================================================================================================
 #Install and configure PostgreSQL database on Nautilus database server.
-#Create a database user kodekloud_gem and set its password to dCV3szSGNA.
-#Create a database kodekloud_db3 and grant full permissions to user kodekloud_gem on this database.
-#Make appropriate settings to allow all local clients (local socket connections) to connect to the kodekloud_db3 database through kodekloud_gem user using md5 method
+#Create a database user kodekloud_aim and set its password to B4zNgHA7Ya.
+#Create a database kodekloud_db8 and grant full permissions to user kodekloud_aim on this database.
+#Make appropriate settings to allow all local clients (local socket connections) to connect to the kodekloud_db8 database through kodekloud_aim user using md5 method
 (Please do not try to encrypt password with md5sum).
 #At the end its good to test the db connection using these new credentials from root user or server's sudo user.
 
@@ -99,14 +99,14 @@ sudo systemctl enable postgresql
 #Switch to the PostgreSQL user
 sudo -u postgres psql
 #Create db user, assign password, create database and privileges
-CREATE USER kodekloud_gem WITH PASSWORD 'dCV3szSGNA';
-CREATE DATABASE kodekloud_db3;
-GRANT ALL PRIVILEGES ON DATABASE kodekloud_db3 TO kodekloud_gem;
+CREATE USER kodekloud_aim WITH PASSWORD 'B4zNgHA7Ya';
+CREATE DATABASE kodekloud_db8;
+GRANT ALL PRIVILEGES ON DATABASE kodekloud_db8 TO kodekloud_aim;
 #Configure db access for local client connection
 sudo vi /var/lib/pgsql/data/pg_hba.conf
 #Search for the line that has "# "local" is for Unix domain socket connections only"
 #Comment out the existing "local" entry and add:
-local   kodekloud_db3    kodekloud_gem    md5
+local   kodekloud_db8    kodekloud_aim    md5
 #Save file and exit then restart db service.
 sudo systemctl restart postgresql
 #Test db connection with root user
@@ -114,7 +114,7 @@ sudo systemctl restart postgresql
 sudo -i
 #Connet to database with the precreated credentials
 psql -U kodekloud_gem -d kodekloud_db3
-#Input password (dCV3szSGNA)
+#Input password (B4zNgHA7Ya)
 #We ca run a simple command to verify
 SELECT current_database();
 ================================================================================================================================================================================
