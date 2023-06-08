@@ -15,7 +15,7 @@ kubectl get all
 kubectl get service nagios-service
 #OR
 kubectl get pod
-kubectl exec -it <pod-name> -- /bin/bash
+kubectl exec -it <nagios-pod-name> -- /bin/bash
 cd /opt/nagios/etc/
 htpasswd -Bc htpasswd.users <username>
 - It will prompt to enter new password.
