@@ -1,0 +1,23 @@
+=====================================================================================================================================================================================
+#Create a deployment nagios-deployment for Nagios core.
+#The container name must be nagios-container and it must use jasonrivers/nagios image.
+#Create a user and password for the Nagios core web interface, user must be xFusionCorp and password must be LQfKeWWxWD. (you can manually perform this step after deployment)
+#Create a service nagios-service for Nagios, which must be of targetPort type, nodePort must be 30008.
+
+- First develop a .yaml manifest file to create a nagios deployment pod and service with the provided requirements
+- To run the .yaml files run the command below
+kubectl apply -f filename.yaml
+- After creating the deployment pod and service, you have to create user and password manually
+#Run the following commands to create user and password:
+- Identify the pod name in which nagios was deployed into
+kubectl get all
+#OR
+kubectl get service nagios-service
+#OR
+kubectl get pod
+kubectl exec -it <pod-name> -- /bin/bash
+cd /opt/nagios/etc/
+htpasswd -Bc htpasswd.users <username>
+- It will prompt to enter new password.
+- Exit and test the Nagios web interface on the terminal
+==========================================================================================================================================================================================
