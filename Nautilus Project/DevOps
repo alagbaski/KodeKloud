@@ -1,4 +1,3 @@
-=====================================================================================================================================================================================
 #Create a deployment nagios-deployment for Nagios core.
 #The container name must be nagios-container and it must use jasonrivers/nagios image.
 #Create a user and password for the Nagios core web interface, user must be xFusionCorp and password must be LQfKeWWxWD. (you can manually perform this step after deployment)
