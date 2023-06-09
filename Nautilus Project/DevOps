@@ -29,7 +29,7 @@ htpasswd -Bc htpasswd.users <username>
 
 SOLUTION:
 - First switch to docker CLI in the required App Server
-sudo docker exec -it <container_id> /bin/bash
+sudo docker exec -it kkloud /bin/bash
 apt install apache2 -y
 apt install nano
 - Also while in Docker CLI configure the apache2 service to Listen 
