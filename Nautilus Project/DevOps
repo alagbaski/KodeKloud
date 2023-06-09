@@ -34,7 +34,7 @@ apt install apache2 -y
 apt install nano
 - Also while in Docker CLI configure the apache2 service to Listen 
 sudo nano /etc/apache2/ports.conf
-- Look for the line that has Listen = 80 to Listen = 5004
+- Look for the line that has Listen and modifiy to "Listen = 5004"
 service apache2 restart
 service apache2 status
 exit
