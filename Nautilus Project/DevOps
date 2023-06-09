@@ -28,7 +28,7 @@ htpasswd -Bc htpasswd.users <username>
 #Keep the container in running state at the end.
 
 SOLUTION:
-- First switch to docker CLI
+- First switch to docker CLI in the required App Server
 sudo docker exec -it <container_id> /bin/bash
 apt install apache2 -y
 apt install nano
