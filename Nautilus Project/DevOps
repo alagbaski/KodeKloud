@@ -15,11 +15,12 @@ kubectl get all
 kubectl get service nagios-service
 #OR
 kubectl get pod
+- Switch to the pod/container CLI
 kubectl exec -it <nagios-pod-name> -- /bin/bash
 cd /opt/nagios/etc/
 htpasswd -Bc htpasswd.users <username>
-- It will prompt to enter new password.
-- Exit and test the Nagios web interface on the terminal
+- It will prompt for new password, enter the required password.
+- Exit the pod/container CLI and test the Nagios web interface on the terminal
 ==========================================================================================================================================================================================
 #Install apache2 in "kkloud" container using apt that is running on App Server 3 in Stratos Datacenter
 #Configure Apache to listen on port 5004 instead of default http port. Do not bind it to listen on specific IP or hostname only, 
@@ -28,7 +29,7 @@ htpasswd -Bc htpasswd.users <username>
 #Keep the container in running state at the end.
 
 SOLUTION:
-- First switch to docker CLI in the required App Server
+- First switch to pod/container CLI in the required App Server
 sudo docker exec -it kkloud /bin/bash
 apt install apache2 -y
 apt install nano
