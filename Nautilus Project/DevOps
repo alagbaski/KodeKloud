@@ -43,3 +43,12 @@ service apache2 status
 exit
 sudo docker ps
 ================================================================================================================================================================================
+#Create a pod named "pod-httpd" using httpd image with latest tag only and remember to mention the tag (httpd:latest).
+#Labels app should be set to "httpd_app", also container should be named as "httpd-container".
+
+- Create a .yaml manifest file to create the pod/container using the requirements given.
+- To execute the .yaml file, Run:
+kubectl create -f filename.yaml
+- Confirm if the pod is created and ready.
+kubectl get pod
+===================================================================================================================================================================================
