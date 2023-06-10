@@ -29,15 +29,17 @@ htpasswd -Bc htpasswd.users <username>
 #Keep the container in running state at the end.
 
 SOLUTION:
-- First switch to pod/container CLI in the required App Server
+- First switch to pod/container CLI in the required App Server.
 sudo docker exec -it kkloud /bin/bash
 apt install apache2 -y
 apt install nano
-- Also while in Docker CLI configure the apache2 service to Listen 
+- Also while in pod CLI configure the apache2 service to Listen on the required port.
 sudo nano /etc/apache2/ports.conf
-- Look for the line that has Listen and modifiy to "Listen = 5004"
+- Look for the line that has Listen and modifiy to "Listen = 5004".
+- Exit the editor and the restart service.
 service apache2 restart
 service apache2 status
+- Exit the container/pod CLI, then check if the container is in running state.
 exit
 sudo docker ps
 ================================================================================================================================================================================
