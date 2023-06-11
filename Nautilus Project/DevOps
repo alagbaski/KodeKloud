@@ -72,7 +72,7 @@ base64 -w 0 news.txt
 - Replace <base64-encoded content of news.txt> in the already developed manifest with the actual base64-encoded content that you obtained.
 - Then apply the .yaml manifest file.
 kubectl apply -f filename.yaml
-- To verify you can exec into the container "secret-container-xfusion", to check the secret key under the mounted path "/opt/apps".
+- To verify you can exec into the container to check.
 kubectl exec -it secret-xfusion -c secret-container-xfusion -- /bin/bash
 ls /opt/apps/news.txt
 - To make sure pod/pods are in running state.
