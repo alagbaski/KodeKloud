@@ -53,3 +53,28 @@ kubectl create -f filename.yaml
 - Confirm if the pod is created and ready.
 kubectl get pod
 ===================================================================================================================================================================================
+#Create a generic secret named "news", it should contain the password/license-number present in news.txt file.
+#We already have a secret key file "news.txt" under /opt location on jump host.
+#Also create a pod named "secret-xfusion".
+#Configure pod's spec as container name should be "secret-container-xfusion", image should be "fedora" preferably with latest tag (remember to mention the tag with image).
+#Use sleep command for container so that it remains in running state.
+#Consume the created secret and mount it under "/opt/apps" within the container.
+#Verify to check the secret key under the mounted path "/opt/apps".
+#Please make sure pod/pods are in running state, also validation can take some time to complete so keep patience.
+
+SOLUTION:
+- First develop the YAML manifest for creating the secret and the pod as per your requirements.
+- Before applying the manifest file, look for the line that has "<base64-encoded content of news.txt>" and replace it with the base64-encoded content of the beta.txt file.
+- You can encode the file content using the "base64" command-line tool in the /opt.
+- Do so by running the command below:
+base64 -w 0 news.txt
+- Here's an example of how the encoded content would look (NWVjdXIzCg==).
+- Replace <base64-encoded content of news.txt> in the already developed manifest with the actual base64-encoded content that you obtained.
+- Then apply the .yaml manifest file.
+kubectl apply -f filename.yaml
+- To verify you can exec into the container "secret-container-xfusion", to check the secret key under the mounted path "/opt/apps".
+kubectl exec -it secret-xfusion -c secret-container-xfusion -- /bin/bash
+ls /opt/apps/news.txt
+- To make sure pod/pods are in running state.
+kubectl get pods
+=================================================================================================================================================================================
