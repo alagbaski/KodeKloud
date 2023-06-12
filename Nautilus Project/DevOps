@@ -78,3 +78,25 @@ ls /opt/apps/news.txt
 - To make sure pod/pods are in running state.
 kubectl get pods
 =================================================================================================================================================================================
+#Create a namespace "jenkins".
+#Create a Service for jenkins deployment, service name should be "jenkins-service" under jenkins namespace, type should be NodePort, nodePort should be "30008".
+#Create a Jenkins Deployment under jenkins namespace.
+- It should be name as jenkins-deployment.
+- Labels app should be jenkins.
+- Container name should be jenkins-container.
+- Use jenkins/jenkins image.
+- ContainerPort should be 8080 and replicas count should be 1.
+#Make sure you are able to access the Jenkins login screen in the browser.
+
+SOLUTION:
+- Create the YAML manifest to create the namespace, service, and deployment for Jenkins as per your requirements.
+- Save the above YAML manifests into separate files (e.g., jenkins-namespace.yaml, jenkins-service.yaml, jenkins-deployment.yaml).
+- Run the following commands to execute the rest of the task:
+kubectl apply -f jenkins-namespace.yaml
+kubectl apply -f jenkins-service.yaml
+kubectl apply -f jenkins-deployment.yaml
+
+#Make sure to wait for the pods to be in running state.
+- To check the pod status, Run:
+kubectl get pods -n jenkins
+=================================================================================================================================================================
