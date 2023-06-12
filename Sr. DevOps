@@ -1,4 +1,5 @@
 {{READ THROUGH BEFORE USE}}
+===============================================================================================================================================================================
 #Create a Puppet programming file games.pp under /etc/puppetlabs/code/environments/production/manifests directory on the Puppet master node i.e on Jump Server.
 Define a class ssh_node1 for agent node 1 i.e App Server 1, ssh_node2 for agent node 2 i.e App Server 2, ssh_node3 for agent node3 i.e App Server 3.
 You will need to generate a new ssh key for thor user on Jump Server, that needs to be added on all App Servers.
