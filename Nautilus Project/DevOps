@@ -100,3 +100,17 @@ kubectl apply -f jenkins-deployment.yaml
 - To check the pod status, Run:
 kubectl get pods -n jenkins
 =================================================================================================================================================================
+#Manage all servers within the stack using Ansible, the Nautilus DevOps team is planning to use a common sudo user among all servers.
+#On jump host make appropriate changes so that Ansible can use james as a default ssh user for all hosts.
+#Make changes in Ansible's default configuration only —please do not try to create a new config.
+
+
+///SOLUTION:
+- Locate the Ansible configuration file, typically located at /etc/ansible/ansible.cfg.
+sudo vi /etc/ansible/ansible.cfg
+- Uncomment or add the following line within the [defaults] section:
+remote_user = james
+- Save and exit editor.
+- Verify that the changes have been applied by running the following command:
+ansible-config dump | grep REMOTE_USER
+=====================================================================================================================================================================================
