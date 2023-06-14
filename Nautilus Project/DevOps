@@ -5,6 +5,7 @@
 
 SOLUTION:
 - First develop a .yaml manifest file to create a nagios deployment pod and service with the provided requirements
+- You can find sample manifest file in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create_Nagios_Deployment.yaml
 - To run the .yaml files run the command below
 kubectl apply -f filename.yaml
 - After creating the deployment pod and service, you have to create user and password manually
@@ -48,6 +49,7 @@ sudo docker ps
 
 SOLUTION:
 - Create a .yaml manifest file to create the pod/container using the requirements given.
+- You can find sample of the manifest file in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create_Pod.yaml
 - To execute the .yaml file, Run:
 kubectl create -f filename.yaml
 - Confirm if the pod is created and ready.
@@ -64,6 +66,7 @@ kubectl get pod
 
 SOLUTION:
 - First develop the YAML manifest for creating the secret and the pod as per your requirements.
+- You can find sample manifest file in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create_Secrets_Pod.yaml
 - Before applying the manifest file, look for the line that has "<base64-encoded content of news.txt>" and replace it with the base64-encoded content of the beta.txt file.
 - You can encode the file content using the "base64" command-line tool in the /opt.
 - Do so by running the command below:
@@ -90,6 +93,7 @@ kubectl get pods
 
 SOLUTION:
 - Create the YAML manifest to create the namespace, service, and deployment for Jenkins as per your requirements.
+- You can find sample manifest files in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/tree/main/create-namespace-deployment-services-jenkins
 - Save the above YAML manifests into separate files (e.g., jenkins-namespace.yaml, jenkins-service.yaml, jenkins-deployment.yaml).
 - Run the following commands to execute the rest of the task:
 kubectl apply -f jenkins-namespace.yaml
