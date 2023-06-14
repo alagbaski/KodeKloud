@@ -108,8 +108,7 @@ kubectl get pods -n jenkins
 #On jump host make appropriate changes so that Ansible can use james as a default ssh user for all hosts.
 #Make changes in Ansible's default configuration only —please do not try to create a new config.
 
-
-///SOLUTION:
+SOLUTION:
 - Locate the Ansible configuration file, typically located at /etc/ansible/ansible.cfg.
 sudo vi /etc/ansible/ansible.cfg
 - Uncomment or add the following line within the [defaults] section:
@@ -129,8 +128,7 @@ b.A configmap volume called redis-config at path /redis-master.
 c.The container should expose the port 6379.
 - Finally, redis-deployment should be in an up and running state.
 
-
-///SOLUTION:
+SOLUTION:
 - You need to generate a .yaml manifest to carry-out all the requirements of the task.
 - You can find the sample of the manifest i used in this link ----> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/create_redis_deployment-config-map.yaml
 - Apply the .yaml manifest.
