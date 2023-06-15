@@ -138,3 +138,47 @@ kubectl get deployments
 kubectl get pods
 kubectl logs <redis-pod-name>
 ===========================================================================================================================================================================
+#Using Puppet file resource and perform the below given task:
+#Create a Puppet programming file blog.pp under /etc/puppetlabs/code/environments/production/manifests directory on master node.
+#Using /etc/puppetlabs/code/environments/production/manifests/ecommerce.pp create a file blog.txt under /opt/itadmin directory on App Server 2.
+#NB:
+- Please make sure to run the puppet agent test using sudo on agent nodes, otherwise you can face certificate issues.
+- In that case you will have to clean the certificates first and then you will be able to run the puppet agent test.
+- Please make sure to verify puppet server and puppet agent services are up and running on the respective servers.
+- Also please make sure to run puppet agent test to apply/test the changes manually first.
+
+SOLUTION:
+- Create a file named ecommerce.pp under the /etc/puppetlabs/code/environments/production/manifests directory.
+cd /etc/puppetlabs/code/environments/production/manifests
+sudo vi ecommerce.pp
+- Add the Puppet code to create the blog.txt file on App Server 2 under the /opt/itadmin directory.
+
+file { '/opt/itadmin/blog.txt':
+  ensure => present,
+  content => 'This is a sample news file created by Puppet.',
+  owner  => 'root',
+  group  => 'root',
+  mode   => '0644',
+}
+
+#This code defines a file resource that ensures the presence of the blog.txt file with the specified content, ownership, group, and permissions.
+- Save and exit editor
+- Run the Puppet agent test manually on App Server 2 using the following command with sudo:
+sudo puppet agent -t
+#Running this command will apply the Puppet configurations on the agent node and create the blog.txt file under /opt/itadmin according to the specifications in ecommerce.pp
+- Please note that if you encounter any certificate issues, you may need to clean the certificates before running the Puppet agent test.
+#To verify the status of the Puppet services on the agent nodes, you can use the appropriate command for your operating system.
+Here are the commands for some common operating systems:
+- Systemd-based systems (e.g., Ubuntu, CentOS 7 and above):
+sudo systemctl status puppet
+sudo systemctl start puppet
+sudo systemctl stop puppet
+- Init.d-based systems (e.g., CentOS 6):
+service puppet status
+service puppet start
+service puppet stop
+- Windows:
+sc query puppet
+net start puppet
+net stop puppet
+=======================================================================================================================================================================================
