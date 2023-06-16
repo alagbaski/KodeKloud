@@ -182,3 +182,11 @@ sc query puppet
 net start puppet
 net stop puppet
 =======================================================================================================================================================================================
+#Create a deployment named nginx to deploy the application nginx using the image nginx:latest (remember to mention the tag as well).
+
+SOLUTION:
+- Develop a manifest file to create  a deploymnt as per details mentioned.
+- The sample of the .yaml file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create-Nginx-Deployment.yaml
+- After creating and adding the requirments for the deployment in the manifest, Run the command to execute the task.
+kubectl apply -f filename.yaml
+==================================================================================================================================================================================
