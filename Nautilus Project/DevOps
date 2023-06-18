@@ -190,3 +190,22 @@ SOLUTION:
 - After creating and adding the requirments for the deployment in the manifest, Run the command to execute the task.
 kubectl apply -f filename.yaml
 ==================================================================================================================================================================================
+#Create an inventory file ~/playbook/inventory on jump host and add all app servers in it.
+#Create a playbook ~/playbook/playbook.yml to create a blank file /opt/opt.txt on all app servers.
+#The /opt/opt.txt file permission must be 0744.
+#The user/group owner of file /opt/opt.txt must be tony on app server 1, steve on app server 2 and banner on app server 3.
+
+//SOLUTION:
+- cd into playbook folder and create the inventory file.
+vi inventory
+- Paste the following in it and save.
+[all]
+stapp01 ansible_user=tony ansible_password=Ir0nM@n
+stapp02 ansible_user=steve ansible_password=Am3ric@
+stapp03 ansible_user=banner ansible_password=BigGr33n
+
+- Create the playbook for creating the blank file and granting permission "0744"
+- The sample of the playbook.yml can be found in this link ---> https://github.com/mightygull/Ansible-Playbooks/blob/main/Create%20File%20On%20Diff%20Servers%20%26%20Set%20Ownership.yml
+#run playbook
+ansible-playbook -i inventory playbook.yml
+================================================================================================================================================================================
