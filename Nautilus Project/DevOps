@@ -209,3 +209,18 @@ stapp03 ansible_user=banner ansible_password=BigGr33n
 #run playbook
 ansible-playbook -i inventory playbook.yml
 ================================================================================================================================================================================
+#Creating some cron jobs in Kubernetes cluster with some dummy commands (which will be replaced by original scripts later).
+#Create a cronjob as per details given below:
+- Create a cronjob named nautilus.
+- Set schedule to */5 * * * *.
+- Container name should be cron-nautilus.
+- Use nginx image with latest tag only and remember to mention the tag i.e nginx:latest.
+- Run a dummy command echo Welcome to xfusioncorp!.
+- Ensure restart policy is OnFailure.
+
+//SOLUTION:
+#Create YAML configuration for creating the cron job based on the details you provided.
+- You can find the sample of the manifest in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create-Cronjobs-In-Kubernetes.yaml
+#Apply the created .yaml manifest file for creating the cronjobs on the cluster.
+kubectl create -f filename.yaml
+=============================================================================================================================================================================
