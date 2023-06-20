@@ -224,3 +224,35 @@ ansible-playbook -i inventory playbook.yml
 #Apply the created .yaml manifest file for creating the cronjobs on the cluster.
 kubectl create -f filename.yaml
 =============================================================================================================================================================================
+#Create a Puppet programming file apps.pp under /etc/puppetlabs/code/environments/production/manifests directory on master node i.e Jump Server.
+#And using Puppet user resource add a user on all app servers as mentioned below:
+- Create a user "ammar" and set its UID to "1207" on Puppet agent node 2 i.e App Servers 2.
+- Please make sure to run puppet agent test to apply/test the changes manually.
+- Also, make sure to verify puppet server and puppet agent services are up and running on the respective servers.
+
+//SOLUTION:
+#Navigate to the /etc/puppetlabs/code/environments/production/manifests directory.
+cd /etc/puppetlabs/code/environments/production/manifests
+sudo nano apps.pp
+#Add the following code to the "apps.pp" file to define the user resource for "ammar" with the specified UID.
+
+node 'app-server 2' {
+  user { 'ammar':
+    ensure => present,
+    uid    => '1207',
+  }
+}
+
+- Replace 'app-server 2' with the actual Puppet node name or hostname of App Server 2 where you want to create the user.
+# Start Puppet server.
+sudo systemctl start puppetserver
+sudo systemctl status puppetserver
+#SSH into app-server 2.
+# Start Puppet agent.
+sudo systemctl start puppet  
+sudo systemctl status puppet
+#Run puppet agent test to apply/test the changes manually on App Server 2.
+sudo puppet agent -t
+- NB: Please make sure to run the puppet agent test using sudo on agent nodes, otherwise you can face certificate issues.
+In that case you will have to clean the certificates first and then you will be able to run the puppet agent test.
+===========================================================================================================================================================================
