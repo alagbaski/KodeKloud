@@ -256,3 +256,13 @@ sudo puppet agent -t
 - NB: Please make sure to run the puppet agent test using sudo on agent nodes, otherwise you can face certificate issues.
 In that case you will have to clean the certificates first and then you will be able to run the puppet agent test.
 ===========================================================================================================================================================================
+#We have some conditional data present on App Server 3 in Stratos Datacenter. 
+#There is a container "ubuntu_latest" running on the same server.
+- On App Server 3 in Stratos Datacenter copy an encrypted file /tmp/nautilus.txt.gpg from docker host to ubuntu_latest container (running on same server) in /usr/src/ location.
+
+//SOLUTION:
+- Make sure the container ubuntu_latest is running on the server.
+docker ps
+- After confirming, use the "docker cp" command to copy the encrypted file from the Docker host to the container.
+docker cp /tmp/nautilus.txt.gpg ubuntu_latest:/usr/src/
+==============================================================================================================================================================
