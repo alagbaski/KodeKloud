@@ -289,3 +289,30 @@ sudo git checkout master
 sudo git merge xfusion
 sudo git push origin master xfusion
 ====================================================================================================================================================================================
+#There are some packages that need to be installed on the app server 1.
+#We want to install these packages using puppet only.
+#Create a puppet programming file blog.pp under /etc/puppetlabs/code/environments/production/manifests on master node and perform below mentioned tasks using the same.
+- Define a class multi_package_node for agent node 1 (App Server 1).
+- Install net-tools and unzip packages on the agent node 1.
+- Make sure to run puppet agent test to apply/test the changes manually.
+- Also, make sure to verify puppet server and puppet agent services are up and running on the respective servers.
+
+//SOLUTION:
+#Navigate to the Puppet manifests directory.
+cd /etc/puppetlabs/code/environments/production/manifests
+#Create a new Puppet programming file called blog.pp, in the blog.pp file, define the class and specify the packages to be installed.
+sudo vi blog.pp
+#You can find the sample of the puppet file in this link ---> https://github.com/mightygull/Puppet-Files/blob/main/install_multi_package_node.pp
+#Now, you need to assign this class to the agent node (App Server 1). To do that, create a new file called site.pp in the same directory.
+sudo vi site.pp
+#In the "site.pp" file, assign the multi_package_node class to the agent node (App Server 1) by adding the following code:
+
+node 'agent_node1.example.com' {
+  include multi_package_node
+}
+
+- Replace 'agent_node1.example.com' with the actual hostname of your agent node (App Server 1).
+- Save and exit the file.
+#Trigger a Puppet run on the agent node (App Server 1) to apply the configuration changes.
+sudo puppet agent -t
+=================================================================================================================================================================================
