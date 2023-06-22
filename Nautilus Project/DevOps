@@ -266,3 +266,26 @@ docker ps
 - After confirming, use the "docker cp" command to copy the encrypted file from the Docker host to the container.
 docker cp /tmp/nautilus.txt.gpg ubuntu_latest:/usr/src/
 ==============================================================================================================================================================
+#The Nautilus application development team has been working on a project repository /opt/ecommerce.git.
+#This repo is cloned at "/usr/src/kodekloudrepos" on storage server in Stratos DC.
+- Create a new branch "xfusion" in /usr/src/kodekloudrepos/official repo from master and copy the /tmp/index.html file (on storage server itself).
+- Add/commit this file in the new branch and merge back that branch to the master branch.
+- Finally, push the changes to origin for both of the branches.
+
+//SOLUTION:
+#Change to the directory where the ecommerce repository is located.
+cd /usr/src/kodekloudrepos/ecommerce/
+#Create a new branch called "xfusion" from the "master" branch
+git branch  -----> To check the current branch, make sure it is at master branch.
+sudo git branch xfusion
+sudo git checkout xfusion
+#Copy the "/tmp/index.html" file to the new branch
+sudo cp /tmp/index.html .
+#Add & Commit the copied file to the Git index.
+sudo git add .
+sudo git commit -m "Added index.html to xfusion branch"
+#Merge the "xfusion" branch into the "master" branch and push the changes to the "origin" repository for both branches.
+sudo git checkout master
+sudo git merge xfusion
+sudo git push origin master xfusion
+====================================================================================================================================================================================
