@@ -316,3 +316,35 @@ node 'agent_node1.example.com' {
 #Trigger a Puppet run on the agent node (App Server 1) to apply the configuration changes.
 sudo puppet agent -t
 =================================================================================================================================================================================
+#Rolling Updates And Rolling Back Deployments in Kubernetes.
+#The Nautilus DevOps team wants to test the deployment update and rollback on Dev environment first so that they can identify the risks in advance.
+- Create a namespace called "devops".
+- Create a deployment called "httpd-deploy" under this new namespace, It should have one container called "httpd", use "httpd:2.4.28" image and 3 replicas.
+- The deployment should use RollingUpdate strategy with maxSurge=1, and maxUnavailable=2.
+- Create a NodePort type service named httpd-service and expose the deployment on nodePort: 30008.
+#Upgrade the deployment to version httpd:2.4.43 using a rolling update, once all pods are updated undo the recent update and roll back to the previous/original version.
+
+//SOLUTION:
+#Create namespace
+kubectl create namespace devops
+#Create the deployment under the namespace according to its requirments.
+kubectl create deployment httpd-deploy --image=httpd:2.4.28 --replicas=3 -n devops
+OR
+- Sample of the yaml file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Rolling-Update%26Back-Deployment.yaml
+#Create the service and expose the node port as per requirments.
+- Sample of the yaml file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create-Namespace-Deployment-Services-Jenkins/Create-Service.yaml
+#You can retrieve the assigned nodePort by running the following command.
+kubectl get service httpd-service -n devops
+#Configure the RollingUpdate strategy for the deployment. 
+kubectl set image deployment/httpd-deploy httpd=httpd:2.4.43 -n devops
+=NB= [If you use the yaml deployment link above you dont have to run the command, just use a text editor and modify the image and apply after saving the modification]
+#Wait for the pods to be updated to the new version.
+kubectl rollout status deployment/httpd-deploy -n devops
+#To check if all pods are updated and running after the deployment update.
+kubectl get pods -n devops
+OR
+kubectl describe pods -n devops
+#To roll back the deployment and revert to the previous/original version, you can use the following command.
+kubectl rollout undo deployment/httpd-deploy -n devops
+kubectl rollout status deployment/httpd-deploy -n devops
+=====================================================================================================================================================================================
