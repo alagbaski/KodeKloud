@@ -348,3 +348,13 @@ kubectl describe pods -n devops
 kubectl rollout undo deployment/httpd-deploy -n devops
 kubectl rollout status deployment/httpd-deploy -n devops
 =====================================================================================================================================================================================
+#Git Clone Repositories. The Nautilus application development team recently asked for a copy of that repo on Storage server in Stratos DC.
+#The repo that needs to be cloned is "/opt/apps.git"
+#Clone this git repository under /usr/src/kodekloudrepos directory.
+
+//SOLUTION:
+- Navigate to the directory where you want to clone the repository.
+cd /usr/src/kodekloudrepos
+- Run the following command to clone the git repo.
+sudo git clone /opt/apps.git
+=====================================================================================================================================================================================
