@@ -358,3 +358,17 @@ cd /usr/src/kodekloudrepos
 - Run the following command to clone the git repo.
 sudo git clone /opt/apps.git
 =====================================================================================================================================================================================
+#Replication-Controller in Kubernetes.
+#Create a ReplicationController to deploy several pods accordingly.
+- Create a ReplicationController using httpd image, preferably with latest tag, and name it as "httpd-replicationcontroller".
+- Labels app should be "httpd_app", and labels type should be "front-end".
+- The container should be named as "httpd-container" and also make sure replica counts are 3.
+#All pods should be running state after deployment.
+
+//SOLUTION:
+#Develop a yaml manifest to perform the task accordingly.
+- Sample of the yaml file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Replication_Controller.yaml
+kubectl create -f filename.yaml
+#Check if the pods are running.
+kubectl get pods -l app=httpd_app,type=front-end
+=====================================================================================================================================================================================
