@@ -389,7 +389,7 @@ kubectl get pods -l app=httpd_app,type=front-end
 cd /playbooks
 #Create ansible playbook that performs the tasks you described for App Server 1.
 vi httpd.yml
-- You can find the sample of the file in this link --->  https://github.com/mightygull/Ansible-Playbooks/blob/main/apache%26php_setup_using_inventory%26template.yml
+- You can find the sample of the file in this link --->  https://github.com/mightygull/Ansible-Playbooks/blob/main/Apache&PHP%20Setup%20Using%20Inventory%20&%20Template.yml
 #Make sure the file has executeable permission.
 chmod 775 httpd.yml
 #Run the command to apply the setup in the required Server.
