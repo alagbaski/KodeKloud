@@ -372,3 +372,30 @@ kubectl create -f filename.yaml
 #Check if the pods are running.
 kubectl get pods -l app=httpd_app,type=front-end
 =====================================================================================================================================================================================
+#Ansible Setup httpd and PHP.
+#There is an inventory file ~/playbooks/inventory on jump host.
+#Create a playbook "~/playbooks/httpd.yml" on jump host and perform the following tasks on App Server 1.
+- Install httpd and php packages (whatever default version is available in yum repo).
+- Change default document root of Apache to /var/www/html/myroot in default Apache config /etc/httpd/conf/httpd.conf.
+- Make sure "/var/www/html/myroot" path exists (if not please create the same).
+#There is a template "~/playbooks/templates/phpinfo.php.j2" on jump host.
+- Copy this template to the Apache document root you created as phpinfo.php file and make sure "user" owner and the "group" owner for this file is "apache" user.
+#Start and enable httpd service.
+#Run the playbook using command "ansible-playbook -i inventory httpd.yml", please make sure the playbook works this way without passing any extra arguments.
+
+
+//SOLUTION:
+#Navigate to the "~/playbooks" directory on th jump host.
+cd /playbooks
+#Create ansible playbook that performs the tasks you described for App Server 1.
+vi httpd.yml
+- You can find the sample of the file in this link --->  https://github.com/mightygull/Ansible-Playbooks/blob/main/apache%26php_setup_using_inventory%26template.yml
+#Make sure the file has executeable permission.
+chmod 775 httpd.yml
+#Run the command to apply the setup in the required Server.
+ansible-playbook -i inventory httpd.yml
+
+=NB=
+- Before applying the setup make sure to ssh into the app server to confirm if the new root path "/var/www/html/myroot" exists.
+- Also, make sure the host tag in the .yml file contains the required App Server hostname.
+=====================================================================================================================================================================================
