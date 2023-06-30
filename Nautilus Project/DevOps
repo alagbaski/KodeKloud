@@ -418,3 +418,17 @@ http//<node-ip>:30008
 =NB=
 - Make sure in the manifest, the pod/container block is connecting to the node/service block for it to be accessible on the web interface.
 ===================================================================================================================================================================================
+#Create Replicaset in Kubernetes Cluster.
+#Create a ReplicaSet using httpd image with latest tag only and remember to mention tag i.e httpd:latest and name it as httpd-replicaset.
+#Labels app should be httpd_app, labels type should be front-end.
+#The container should be named as httpd-container; also make sure replicas counts are 4.
+
+
+//SOLUTION:
+#Create a manifest template as per requirements for the task.
+- Sample of the .yaml file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create%20Replicaset%20in%20Kubernetes%20Cluster.yaml
+#Apply the manifest in the kubernetes cluster.
+kubectl apply -f filename.yaml
+#Verify the pod/containers are running.
+kubectl get pods
+=======================================================================================================================================================================================
