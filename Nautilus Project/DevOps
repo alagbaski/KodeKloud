@@ -399,3 +399,20 @@ ansible-playbook -i inventory httpd.yml
 - Before applying the setup make sure to ssh into the app server to confirm if the new root path "/var/www/html/myroot" exists.
 - Also, make sure the host tag in the .yml file contains the required App Server hostname.
 =====================================================================================================================================================================================
+#Persistent Volumes in Kubernetes.
+#Create a PersistentVolume named as pv-devops.
+- Configure the spec as storage class should be "manual", set capacity to 4Gi, set access mode to "ReadWriteOnce", volume type should be "hostPath" and set path to "/mnt/security"
+#Create a PersistentVolumeClaim named as pvc-devops.
+- Configure the spec as storage class should be "manual", request 3Gi of the storage, set access mode to "ReadWriteOnce".
+#Create a pod named as "pod-devops", mount the persistent volume you created with claim name pvc-devops at document root of the web server.
+- The container within the pod should be named as "container-devops" using image httpd with latest tag only [i.e httpd:latest]
+#Create a node port type service named "web-devops" using node port "30008" to expose the web server running within the pod.
+
+//SOLUTION:
+#Create a manifest as per the requirments of the task.
+- Sample of the manifest can be found in this link ----> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create%20Persistent%20Volume-Claim-Pod-Service.yaml
+#Apply the .yaml file in the Cluster.
+kubectl apply -f filename.yaml
+#Give it some time before you test the web interface.
+http//<node-ip>:30008
+===================================================================================================================================================================================
