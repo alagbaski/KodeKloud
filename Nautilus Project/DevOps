@@ -415,4 +415,6 @@ ansible-playbook -i inventory httpd.yml
 kubectl apply -f filename.yaml
 #Give it some time before you test the web interface.
 http//<node-ip>:30008
+=NB=
+- Make sure in the manifest, the pod/container block is connecting to the node/service block for it to be accessible on the web interface.
 ===================================================================================================================================================================================
