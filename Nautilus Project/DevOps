@@ -426,7 +426,7 @@ http//<node-ip>:30008
 
 //SOLUTION:
 #Create a manifest template as per requirements for the task.
-- Sample of the .yaml file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create%20Replicaset%20in%20Kubernetes%20Cluster.yaml
+- Sample of the .yaml file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Replicaset%20Template%20in%20Kubernetes%20Cluster.yaml
 #Apply the manifest in the kubernetes cluster.
 kubectl apply -f filename.yaml
 #Verify the pod/containers are running.
