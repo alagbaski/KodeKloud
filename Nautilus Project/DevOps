@@ -448,7 +448,7 @@ kubectl get pods
 
 //SOLUTION:
 #make sure to cd inside the playbooks directory before carrying out any of this step.
-#The ansible playbook to execute the task above can be found here: https://github.com/DevopGroupstudy/Kodekloud_engineer_related_tasks/blob/main/add_users_%26_groups
+#The ansible playbook to execute the task above can be found here: https://github.com/mightygull/Ansible-Playbooks/blob/main/Ansible%20Create%20Users%20%26%20Groups.yml
 #Copy the playbook, vi into add_users.yml and paste the playbook. Edit the host details and sudo password if necessary. The current playbook was created for stapp01.
 #Before running the playbook, there are lists of steps to accomplish.
 #Add the path to the ansible-vault to the ansible.cfg file in the playbooks directory. vi into the ansible.cfg file and add the line below to its last line.
