@@ -467,3 +467,31 @@ ansible-vault encrypt secrets/admins_password.yml secrets/developers_password.ym
 #Now run the playbook using:
 ansible-playbook -i inventory add_users.yml
 ===================================================================================================================================================================================
+#Puppet Setup File Permissions.
+#Create a Puppet programming file games.pp under /etc/puppetlabs/code/environments/production/manifests directory on the master node.
+#Using puppet file resource, perform the below mentioned tasks.
+- A file named blog.txt already exists under /opt/devops directory on App Server 3.
+- Add content 'Welcome to xFusionCorp Industries!' in blog.txt file on App Server 3.
+- Set its permissions to 0655.
+#Please make sure to run the puppet agent test using sudo on agent nodes.
+
+//SOLUTION:
+#Navigate to the manifests directory.
+cd /etc/puppetlabs/code/environments/production/manifests
+#Create the games.pp file.
+sudo vi games.pp
+#In the file, add the following content: Sample of the file can be found in the link ---> https://github.com/mightygull/Puppet-Files/blob/main/Puppet%20Setup%20File%20Permissions.pp
+#Save and exit the file.
+#Apply the Puppet configuration and make the changes take effect on the agent node App Server 3.
+- Connect to the agent node (App Server 3) using ssh.
+- Make sure the Puppet agent service is running. If not, start it using the appropriate command for your system.
+sudo systemctl start puppet
+sudo systemctl status puppet
+#Run puppet agent test to apply/test the changes manually.
+sudo puppet agent --test
+#Verify that the blog.txt file on App Server 3 now contains the desired content and has the correct permissions.
+
+=NB=
+Please make sure to run the puppet agent test using sudo on agent nodes, otherwise you can face certificate issues.
+In that case you will have to clean the certificates first and then you will be able to run the puppet agent test.
+=====================================================================================================================================================================================
