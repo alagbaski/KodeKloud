@@ -495,3 +495,23 @@ sudo puppet agent --test
 Please make sure to run the puppet agent test using sudo on agent nodes, otherwise you can face certificate issues.
 In that case you will have to clean the certificates first and then you will be able to run the puppet agent test.
 =====================================================================================================================================================================================
+#Git Repository Update.
+#They have created different Git repositories to manage respective project's source code. One of the repo "/opt/demo.git" was created recently.
+#The team has given us a sample index.html file that is currently present on jump host under "/tmp".
+#The repository has been cloned at "/usr/src/kodekloudrepos" on storage server in Stratos DC.
+- Copy sample "index.html" file from jump host to storage server under cloned repository at "/usr/src/kodekloudrepos/demo".
+- Add/Commit the file and push to master branch.
+
+//SOLUTION:
+#First we move the index.html file from the temporary location to the cloned repository directory
+- We found out that when we try to copy the index.html file directly to the absolute path on the Storage Server, we were denied permission even with SUDO.
+#So we copy the index.html file to the /tmp directory on the Storage Server as well.
+sudo scp /tmp/index.html natasha@172.16.238.15:/tmp/
+#Then we ssh into the Storage Server terminal.
+#Navigate to the already cloned repository at /usr/src/kodekloudrepos.
+cd /usr/src/kodekloudrepos/demo
+#Add/Commit and also push the index.html file to the master branch.
+sudo git add index.html
+sudo commit -m "Add index.html file"
+sudo git push origin master
+================================================================================================================================================================================
