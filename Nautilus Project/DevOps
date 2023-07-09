@@ -515,3 +515,16 @@ sudo git add index.html
 sudo commit -m "Add index.html file"
 sudo git push origin master
 ================================================================================================================================================================================
+#Deploy Grafana on Kubernetes Cluster.
+#Create a deployment named grafana-deployment-xfusion using any grafana image for Grafana app, set other parameters as per your choice.
+#Create NodePort type service with nodePort 32000 to expose the app.
+
+//SOLUTION:
+#Create the .yaml manifest for the deployment and service node for the application.
+- Sample of the manifest can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Deploy%20Grafana%20in%20Kubernetes.yaml
+#Apply the manifest file to execute the rest of the task.
+kubectl apply <file-name>.yaml
+#Verify if the Service is running
+kubectl get service grafana-service-xfusion
+kubectl get pod
+====================================================================================================================================================================================
