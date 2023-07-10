@@ -1,0 +1,19 @@
+#Countdown job in Kubernetes.
+#Create a job "countdown-xfusion".
+#The spec template should be named as countdown-xfusion (under metadata), and the container should be named as "container-countdown-xfusion".
+#Use image "centos" with "latest" tag only and remember to mention tag, and restart policy should be "Never".
+#Use command (for i in 10 9 8 7 6 5 4 3 2 1 ; do echo $i ; done)
+
+
+//SOLUTION:
+#Create the job template as a .yaml manifest.
+- The sample of the file can be found in this link --->  https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Jobs%20in%20Kubernets.yaml
+#Apply the template.
+kubectl apply -f <file-name>.yaml
+#Verify if job is created according to template.
+kubectl get jobs
+kubectl logs <job-name>
+kubectl logs <pod-name>
+kubectl get pods --selector=job-name=<job-name> --output=jsonpath={.items..metadata.name}
+- Replace <job-name> with the actual name of the job.
+========================================================================================================================================================================================
