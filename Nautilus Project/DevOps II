@@ -17,3 +17,21 @@ kubectl logs <pod-name>
 kubectl get pods --selector=job-name=<job-name> --output=jsonpath={.items..metadata.name}
 - Replace <job-name> with the actual name of the job.
 ========================================================================================================================================================================================
+#Deploy Node App on Kubernetes.
+#Create a deployment using gcr.io/kodekloud/centos-ssh-enabled:node image, replica count must be 2.
+#Create a service to expose this app, the service type must be NodePort, targetPort must be 8080 and nodePort should be 30012.
+#Make sure all the pods are in Running state after the deployment.
+#You can use any labels as per your choice.
+
+
+//SOLUTION:
+#To deploy the Node application on a Kubernetes cluster and meet the given requirements, you can use the following YAML configurations.
+#Create a deployment.yaml & service.yaml manifest.
+- Sample of the deployment file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Node%20App%20in%20Kubernetes/node_app_deployment.yaml
+- Sample of the service file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Node%20App%20in%20Kubernetes/node_app_service.yaml
+#Apply the configured YAML files in the following order.
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+#Verify if the application is running.
+kubectl get pods
+======================================================================================================================================================================================
