@@ -35,3 +35,14 @@ kubectl apply -f service.yaml
 #Verify if the application is running.
 kubectl get pods
 ======================================================================================================================================================================================
+#Pull Docker Image.
+#Pull busybox:musl image on App Server 2 in Stratos DC and re-tag (create new tag) this image as busybox:local.
+
+
+//SOLUTION:
+#I noticed that you have to use elevated permission for each command.
+#To pull the image
+sudo docker pull busybox:musl
+#To re-tag the image
+sudo docker tag busybox:musl busybox:local
+=======================================================================================================================================================================================
