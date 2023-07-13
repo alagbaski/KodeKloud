@@ -46,3 +46,22 @@ sudo docker pull busybox:musl
 #To re-tag the image
 sudo docker tag busybox:musl busybox:local
 =======================================================================================================================================================================================
+#Save, Load and Transfer Docker Image.
+#On App Server 1 save the image "blog:nautilus" in an archive.
+#Transfer the image archive to App Server 3.
+#Load that image archive on App Server 3 with same name and tag which was used on App Server 1.
+
+
+//SOLUTION:
+#Connect  to App-Server 1 terminal using SSH.
+#Create the image archive ".tar".
+sudo docker save -o blog_nautilus.tar blog:nautilus
+#Transfer file to App-Server 3.
+sudo scp blog_nautilus.tar user@<stapp03-ip-address>:/home/user
+#Make sure the docker service is up and running on the Servers.
+sudo systemctl status docker
+sudo systemctl start docker
+- Run commands for both Servers.
+#Load the image on App-Server 3.
+sudo docker load -i blog_nautilus.tar
+======================================================================================================================================================================================
