@@ -65,3 +65,40 @@ sudo systemctl start docker
 #Load the image on App-Server 3.
 sudo docker load -i blog_nautilus.tar
 ======================================================================================================================================================================================
+#Deploy Guest Book App on Kubernetes.
+=BACK-END TIER=
+#Create a deployment named "redis-master" for Redis master.
+- Replicas count should be 1.
+- Container name should be "master-redis-devops" and it should use image "redis".
+- Request resources as CPU should be "100m" and Memory should be "100Mi".
+- Container port should be redis default port "6379".
+#Create a service named "redis-master" for Redis master. Port and targetPort should be Redis default port "6379".
+#Create another deployment named "redis-slave" for Redis slave.
+- Replicas count should be 2.
+- Container name should be "slave-redis-devops" and it should use "gcr.io/google_samples/gb-redisslave:v3" image.
+- Requests resources as CPU should be "100m" and Memory should be "100Mi".
+- Define an environment variable named "GET_HOSTS_FROM" and its value should be "dns".
+- Container port should be Redis default port "6379".
+#Create another service named "redis-slave". It should use Redis default port "6379".
+
+=FRONT-END TIER=
+#Create a deployment named frontend.
+- Replicas count should be 3.
+- Container name should be "php-redis-devops" and it should use "gcr.io/google-samples/gb-frontend:v4" image.
+- Request resources as CPU should be "100m" and Memory should be "100Mi".
+- Define an environment variable named as "GET_HOSTS_FROM" and its value should be "dns".
+- Container port should be "80".
+#Create a service named "frontend". Its type should be "NodePort", port should be "80" and its nodePort should be "30009".
+
+
+//SOLUTION:
+#We can create seprate .yaml manifest to create the deployment and services for each task.
+#Make to execute the task accordingly.
+- Sample of all the task manifest can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Deploy%20Guest%20Book%20App%20on%20Kubernetes.yaml
+#Apply each configuration using the "kubectl apply -f <filename>.yaml".
+#Also, we can create a single manifest file consisting of the other task execution just the way it is found in the link above. Just run this command instaed.
+kubectl create -f <filename>.yaml
+#Verify the task execution.
+kubectl get deployment
+kubectl get service
+========================================================================================================================================================================================
