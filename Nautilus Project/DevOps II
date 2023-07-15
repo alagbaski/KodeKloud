@@ -102,3 +102,21 @@ kubectl create -f <filename>.yaml
 kubectl get deployment
 kubectl get service
 ========================================================================================================================================================================================
+#Docker Volumes Mapping.
+#On App Server 2 in Stratos DC pull nginx image preferably latest tag.
+#Create a new container with name cluster from the image you just pulled.
+#Map the host volume /opt/security with container volume /usr/src/.
+#There is an sample.txt file present on same server under /tmp; copy that file to /opt/security.
+
+
+//SOLUTION:
+#Connect to App Server 2 in the Stratos DC using SSH or any other remote access method.
+#Pull the Nginx image from Docker Hub.
+sudo docker pull nginx
+#Create a new container named "cluster" using the Nginx image you just pulled.
+sudo docker run -d --name cluster -v /opt/security:/usr/src/ nginx
+#Copy the sample.txt file from the host server to the /opt/security directory.
+sudo cp /tmp/sample.txt /opt/security
+#Also please keep the container in running state.
+sudo docker ps
+=======================================================================================================================================================================================
