@@ -120,3 +120,21 @@ sudo cp /tmp/sample.txt /opt/security
 #Also please keep the container in running state.
 sudo docker ps
 =======================================================================================================================================================================================
+#Ansible Ping Module Usage.
+#Set up a password-less SSH connection between Ansible controller and Ansible managed nodes.
+- Jump host is our Ansible controller, and we are going to run Ansible playbooks through thor user on jump host.
+- Make appropriate changes on jump host so that user thor on jump host can SSH into App Server 3 through its respective sudo user.
+#There is an inventory file /home/thor/ansible/inventory on jump host. Using that inventory file test Ansible ping from jump host to App Server 3, make sure ping works.
+
+
+//SOLUTION:
+#Firstly, Generate SSH Key Pair on the Ansible controller (Jump Host).
+ssh-keygen -t rsa
+- Press enter when prompt and leave passwpharse empty.
+#Copy the Public Key to the Managed Node (App Server 3).
+ssh-copy-id -i ~/.ssh/id_rsa.pub banner@ip-address
+#Test SSH Connection from Jump Host to App Server 3.
+ssh banner@ip-address
+#Test Ansible Ping from Jump Host to App Server 3.
+ansible -i /home/thor/ansible/inventory stapp03 -m ping
+===================================================================================================================================================================================
