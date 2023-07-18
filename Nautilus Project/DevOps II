@@ -138,3 +138,14 @@ ssh banner@ip-address
 #Test Ansible Ping from Jump Host to App Server 3.
 ansible -i /home/thor/ansible/inventory stapp03 -m ping
 ===================================================================================================================================================================================
+#Rollback a Deployment in Kubernetes.
+#There is a deployment named "nginx-deployment"; roll it back to the previous revision.
+
+
+//SOLUTION:
+#Navigate into the Kubernetes Utility Server.
+#Run the command to rollback the deployment.
+kubectl rollout undo deployment/nginx-deployment
+#Verify if the deployment has been rolled back.
+kubectl rollout status deployment/nginx-deployment
+===============================================================================================================================================================================
