@@ -149,3 +149,23 @@ kubectl rollout undo deployment/nginx-deployment
 #Verify if the deployment has been rolled back.
 kubectl rollout status deployment/nginx-deployment
 ===============================================================================================================================================================================
+#Puppet Install a Package.
+#Some new packages need to be installed on app server 3 in Stratos Datacenter.
+#Create a Puppet programming file demo.pp under /etc/puppetlabs/code/environments/production/manifests directory.
+#Install package httpd through Puppet package resource only on App server 3.
+
+
+//SOLUTION:
+#Navigate to the manifests directory on the Puppet Server and Create the puppet file named "demo.pp".
+cd /etc/puppetlabs/code/enviroments/production/manifests
+sudo vi demo.pp
+- You can find the sample of the file in this link ---> https://github.com/mightygull/Puppet-Files/blob/main/Puppet%20Install%20Package%20On%20Agent.pp
+#Make sure to run the puppet agent test using 'sudo' on agent nodes.
+#Apply the Manifest on App Server 3.
+sudo puppet agent -t
+#Verify Installation.
+sudo systemctl status httpd
+#Check if the Puppet server and agent nodes are running, you can use the following commands on the respective servers:
+sudo systemctl status puppetserver
+sudo systemctl status puppet
+==============================================================================================================================================================================
