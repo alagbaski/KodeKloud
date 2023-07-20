@@ -169,3 +169,21 @@ sudo systemctl status httpd
 sudo systemctl status puppetserver
 sudo systemctl status puppet
 ==============================================================================================================================================================================
+#Ansible Unarchive Module.
+#We have an inventory file under /home/thor/ansible directory on jump host, which should have all the app servers added already.
+#There is a ZIP archive "/usr/src/security/xfusion.zip" on jump host.
+- Create a playbook.yml under "/home/thor/ansible/" directory on jump host itself to perform the below given tasks.
+- Unzip "/usr/src/security/xfusion.zip" archive in "/opt/security/" location on all app servers.
+#Make sure the extracted data must have the respective sudo user as their "user" and "group" owner, the extracted data permissions must be "0644".
+#Validation will try to run the playbook using command "ansible-playbook -i inventory playbook.yml" so please make sure playbook works this way, without passing any extra arguments.
+
+
+//SOLUTION:
+#Navigate to the ansible directory where the inventory file is present and Create the playbook.yml to carry out the task requirement.
+cd ansible/
+vi playbook.yml
+- Sample of the playbook.yml file can be found in this link ---> https://github.com/mightygull/Ansible-Playbooks/blob/main/Ansible%20Unarchive%20Module.yml
+#Validate the playbook.yml to run on all the target servers.
+ansible-playbook -i inventory playbook.yml
+#To verify the task execution, you can SSH into each target Server to verify that the task required was executed successfully.
+==================================================================================================================================================================================
