@@ -187,3 +187,26 @@ vi playbook.yml
 ansible-playbook -i inventory playbook.yml
 #To verify the task execution, you can SSH into each target Server to verify that the task required was executed successfully.
 ==================================================================================================================================================================================
+#Kubernetes Troubleshooting.
+#One of the Nautilus DevOps team members was working on to update an existing Kubernetes template. Somehow, he made some mistakes in the template and it is failing while applying.
+#Also, do not remove any component from the template like pods/deployments/volumes etc.
+#"/home/thor/mysql_deployment.yml" is the template that needs to be fixed.
+
+
+//SOLUTION:
+#Navigate to the directory where the .yml file is
+cd /home/thor
+#To run a test on the .yml in kubernetes server
+kubectl apply --dry-run=client -f /path/to/filename.yml
+- We assume the output listed what could be wrong with the file.
+- There is a sample of the correct .yml in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Kubernetes%20Troubleshooting.yml
+#Run the test on the .yml file after necessary modifications.
+kubectl apply --dry-run=client -f /path/to/filename.yml
+kubectl apply -f filename.yml
+#Verify you task execution.
+kubectl get svc
+kubectl get deployment
+kubectl get pv
+kubectl get pvc
+kubectl get pods
+=====================================================================================================================================================================================
