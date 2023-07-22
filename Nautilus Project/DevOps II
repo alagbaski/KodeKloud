@@ -210,3 +210,43 @@ kubectl get pv
 kubectl get pvc
 kubectl get pods
 =====================================================================================================================================================================================
+#Deploy MySQL on Kubernetes
+#Create a PersistentVolume "mysql-pv", its capacity should be "250Mi", set other parameters as per your preference.
+#Create a PersistentVolumeClaim to request this PersistentVolume storage. Name it as "mysql-pv-claim" and request a "250Mi" of storage. Set other parameters as per your preference.
+#Create a deployment named "mysql-deployment", use any mysql image as per your preference. Mount the PersistentVolume at mount path "/var/lib/mysql".
+#Create a NodePort type service named "mysql" and set nodePort to "30007".
+#Create a secret named "mysql-root-pass" having a key pair value.
+- Where key is "password" and its value is "YUIidhb667".
+#Create another secret named "mysql-user-pass" having some key pair values.
+- Where fiRst key is "username" and its value is "kodekloud_joy", second key is "password" and value is "B4zNgHA7Ya".
+#Create one more secret named "mysql-db-url".
+- Where key name is "database" and value is "kodekloud_db10".
+#Define some Environment variables within the container:
+- name: MYSQL_ROOT_PASSWORD, should pick value from secretKeyRef name: mysql-root-pass and key: password.
+- name: MYSQL_DATABASE, should pick value from secretKeyRef name: mysql-db-url and key: database.
+- name: MYSQL_USER, should pick value from secretKeyRef name: mysql-user-pass key key: username.
+- name: MYSQL_PASSWORD, should pick value from secretKeyRef name: mysql-user-pass and key: password.
+
+
+//SOLUTION:
+#Create .yaml manifest files as per task requirments.
+vi secrets.yaml
+vi pv.yaml
+vi pvc.yaml
+vi deployment.yaml
+vi service.yaml
+#Sample of the files can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/tree/main/Deploy%20MySQL%20on%20Kubernetes
+#Apply the manifest files in this order.
+kubectl apply -f secrets.yaml
+kubectl apply -f pv.yaml
+kubectl apply -f pvc.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+#Verify the task execution.
+kubectl get pods
+kubectl get deployment
+kubectl get secrets
+kubectl get svc
+kubectl get pv
+kubectl get pvc
+=======================================================================================================================================================================================
