@@ -250,3 +250,25 @@ kubectl get svc
 kubectl get pv
 kubectl get pvc
 =======================================================================================================================================================================================
+#Git Manage Remotes.
+#The xFusionCorp development team added updates to the project that is maintained under /opt/games.git repo and cloned under /usr/src/kodekloudrepos/games.
+#The DevOps team added some new Git remotes, so we need to update remote on /usr/src/kodekloudrepos/games repository as per details mentioned below:
+- In "/usr/src/kodekloudrepos/games" repo add a new remote "dev_games" and point it to "/opt/xfusioncorp_games.git" repository.
+- There is a file "/tmp/index.html" on same server; copy this file to the repo and add/commit to "master" branch.
+- Finally push master branch to this new remote origin.
+
+
+//SOLUTION:
+#SSH into the required Server in the Startos DC.
+#Navigate to the games repository and add a new remote named "dev_games".
+cd /usr/src/kodekloudrepos/games
+sudo git remote add dev_games /opt/xfusioncorp_games.git
+#Copy the file "/tmp/index.html" to the repository. Add and also commit it to the master branch.
+sudo cp /tmp/index.html .
+sudo git add index.html
+sudo git commit -m "Added index.html from /tmp"
+#Verify the commit before pushing.
+git log
+#Push the master branch to the new remote "origin".
+sudo git push dev_games master
+===================================================================================================================================================================================
