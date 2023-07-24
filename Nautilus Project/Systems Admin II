@@ -1,3 +1,30 @@
+#Git Install and Create Bare Repository.
+#Create a Git repository on Storage server in Stratos DC as per details given below.
+- Install git package using yum on Storage server.
+- After that create a bare repository /opt/official.git (make sure to use exact name).
+
+
+//SOLUTION:
+#Install the Git package using yum.
+sudo yum install git
+#Create a bare repository at the specified location (/opt/official.git).
+sudo mkdir /opt/official.git
+sudo git init --bare /opt/official.git
+==========================================================================================================================================================================
+#Git Delete Branches.
+#On Storage server in Stratos DC delete a branch named "xfusioncorp_demo" from "/usr/src/kodekloudrepos/demo" git repo.
+
+
+//SOLUTION:
+#Log in to the Storage server, and navigate to the directory where the Git repository "demo" is located.
+cd /usr/src/kodekloudrepos/demo
+#To delete the branch "xfusioncorp_demo"
+sudo git branch -d xfusioncorp_demo
+#You can force the deletion using the -D option.
+sudo git branch -D xfusioncorp_demo
+#Verify.
+git branch
+======================================================================================================================================================================
 # Create a bash script named ecommerce_backup.sh which should accomplish the following tasks for taking websites backup.
 They have a static website running on App-Server 2 in the Datacenter.
 (Also remember to place the script under /scripts directory on specified App Server)
