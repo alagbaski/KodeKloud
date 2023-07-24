@@ -44,6 +44,53 @@ sudo adduser -r siva
 ====================================================================================================
 #To create a non-interative user
   useradd -s /bin/false username
+=====================================================================================================
+#To Create a user "mark". Set its UID to "1778" and home directory to "/var/www/mark".
+sudo useradd -u 1778 -d /var/www/mark -m mark
+#Verify.
+id mark
+===================================================================================================
+#Create a Group.
+- Create a group named nautilus_admin_users in all App servers .
+- Add the user mohammed to nautilus_admin_users group in all App servers.
+
+
+sudo groupadd nautilus_admin_users
+sudo usermod -aG nautilus_admin_users mohammed
+#Verify.
+groups mohammed
+==============================================================================================================================================================
+#Linux Archives.
+#Make a yousuf.tar.gz compressed archive of /data/yousuf directory and move the archive to /home directory on Storage Server.
+
+
+- Navigate to the /data directory.
+cd /data
+- Create the compressed archive (yousuf.tar.gz) of the yousuf directory.
+sudo tar -czvf /home/yousuf.tar.gz yousuf
+================================================================================================================================================================================
+#Linux Access Control List.
+#The Nautilus security team performed an audit on all servers present in Stratos DC.
+#During the audit some critical data/files were identified which were having the wrong permissions as per security standards.
+#Once the report was shared with the production support team, they started fixing the issues.
+#It has been identified that one of the files named /etc/resolv.conf on Nautilus App 2 server has wrong permissions, so that needs to be fixed and the correct ACLs needs to be set.
+- The user owner and group owner of the file should be root user.
+- Others must have read only permissions on the file.
+- User mark must not have any permission on the file.
+- User eric should have read only permission on the file.
+
+
+//SOLUTION:
+#Ensure that the ACL package is installed or else you can do so.
+sudo yum install acl
+#Set the correct ownership of the file to root.
+sudo chown root:root /etc/resolv.conf
+#Remove any existing ACLs on the file (optional but recommended to start fresh).
+sudo setfacl -b /etc/resolv.conf
+#Set the ACLs according to the requirements.
+sudo setfacl -m u:root:r,u:eric:r,g::r,o::-,u:mark:--- /etc/resolv.conf
+#Verify the ACLs on the file.
+getfacl /etc/resolv.conf
 ====================================================================================================
 #To check OS running
 cat /etc/*release" or "uname -a
@@ -159,6 +206,61 @@ Save and exit the file.
 
 - This will run the cron job every 5 minutes and append "hello" to the file /tmp/cron_text.
 - You can verify that the cron job is running by checking the contents of the file /tmp/cron_text.
+=============================================================================================================================================================================
+#Cron schedule deny to users.
+#Limit crontab access to below specified users on App Server 3.
+- Allow crontab access to jim user and deny the same to garrett user.
+
+
+//SOLUTION:
+#Allow crontab access to the "jim" user.
+- Add "jim" to the /etc/cron.allow file. If the file doesn't exist, create it and add "jim" to it.
+sudo echo "jim" >> /etc/cron.allow
+#Deny crontab access to the "garrett" user.
+- Add "garrett" to the /etc/cron.deny file.
+sudo echo "garrett" >> /etc/cron.deny
+=========================================================================================================================================================================
+#Linux Firewalld Rules.
+#The Nautilus system admins team recently deployed a web UI application for their backup utility running on the Nautilus backup server.
+#The application is running on port 5003. They have firewalld installed on that server.
+- Open all incoming connection on 5003/tcp port. Zone should be public.
+
+
+//SOLUTION:
+#First, check if firewalld is installed and running on the server.
+sudo systemctl status firewalld
+- If firewalld is not running, start it and enable it.
+#Open port 5003/tcp in the public zone.
+sudo firewall-cmd --zone=public --add-port=5003/tcp --permanent
+#Reload firewalld to apply the changes.
+sudo firewall-cmd --reload
+#Verify.
+sudo firewall-cmd --list-all
+=======================================================================================================================================================
+#Linux Resource Limits.
+#On our Storage server in Stratos Datacenter we are having some issues where nfsuser user is holding hundred of processes, which is degrading the performance of the server.
+#We have a requirement to limit its maximum processes. Please set its maximum process limits as below.
+- soft limit = 1025
+- hard_limit = 2026
+
+
+//SOLUTION:
+#Option 1: Using ulimit command (temporary change).
+- Log in to the Storage server and switch user tp "nfsuser".
+sudo su - nfsuser
+#Set the soft limit to 1025 processes.
+ulimit -Su 1025
+#Set the hard limit to 2026 processes.
+ulimit -Hu 2026
+
+#Option 2: Using /etc/security/limits.conf (permanent change).
+#Log in to the Storage server, Open the /etc/security/limits.conf file in a text editor.
+sudo vi /etc/security/limits.conf
+- Add the following lines at the end of the file to set the limits for the "nfsuser" user.
+nfsuser soft nproc 1025
+nfsuser hard nproc 2026
+#Verify that the limits have been set correctly using the ulimit command.
+ulimit -a
 ===============================================================================================================================
 #To Delete lines containing a certain word like "copyright" in a linux file having many sentences
 
