@@ -1,3 +1,24 @@
+#Ansible Copy Module.
+#On jump host create an inventory file "/home/thor/ansible/inventory" and add all application servers as managed nodes.
+#On jump host create a playbook "/home/thor/ansible/playbook.yml" to copy "/usr/src/sysops/index.html" file to all application servers at location "/opt/sysops".
+#Run the playbook using command "ansible-playbook -i inventory playbook.yml", so please make sure the playbook works this way without passing any extra arguments.
+
+
+//SOLUTION:
+#Navigate to the "/home/thor/ansible/" directory to create inventory file and the playbook.
+cd /home/thor/ansible/
+vi inventory
+- Add the following lines into the inventory for each node.
+
+stapp01 ansible_host=ip-address ansible_ssh_pass=password ansible_user=username
+stapp02 ansible_host=ip-address ansible_ssh_pass=password ansible_user=username
+stapp03 ansible_host=ip-address ansible_ssh_pass=password ansible_user=username
+
+#Create the playbook.yml to copy the file to other nodes.
+- The sample of the file can be found in this link ---> https://github.com/mightygull/Ansible-Playbooks/blob/main/Ansible%20Copy%20Module.yml
+#Run the playbook to execute the task required.
+ansible-playbook -i inventory playbook.yml
+====================================================================================================================================================================================
 #Create a deployment nagios-deployment for Nagios core.
 #The container name must be nagios-container and it must use jasonrivers/nagios image.
 #Create a user and password for the Nagios core web interface, user must be xFusionCorp and password must be LQfKeWWxWD. (you can manually perform this step after deployment)
