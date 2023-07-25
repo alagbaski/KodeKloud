@@ -272,3 +272,121 @@ git log
 #Push the master branch to the new remote "origin".
 sudo git push dev_games master
 ===================================================================================================================================================================================
+#Install Docker Package.
+#Install "docker-ce" and "docker-compose" packages on App Server 3.
+#Start docker service.
+
+
+//SOLUTION:
+#Update the package index and install some necessary dependencies.
+sudo yum update
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+#Add the Docker repository to the system and install Docker CE, start and enable it as well.
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install -y docker-ce
+sudo systemctl start docker
+sudo systemctl enable docker
+#Install required dependencies for Docker Compose.
+sudo yum install -y curl
+#Download the latest version of Docker Compose (you can check for the latest release on the Docker Compose GitHub page).
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+#Apply executable permissions to the binary.
+sudo chmod +x /usr/local/bin/docker-compose
+#Create a symbolic link to make the docker-compose command available system-wide.
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+#Manage Docker without sudo (Optional).
+sudo usermod -aG docker your_username
+=====================================================================================================================================================================================
+#Run a Docker Container.
+#On Application Server 1 create a container named "nginx_1" using image "nginx" with "alpine" tag and make sure container is in running state.
+
+
+//SOLUTION:
+#Make sure docker is installed and running.
+sudo systemctl status docker
+docker ps -a
+#Pull the Nginx image with the alpine tag from Docker Hub.
+docker pull nginx:alpine
+#Now create and run the Nginx container named "nginx_1".
+docker run -d --name nginx_1 -p 80:80 nginx:alpine
+#Verify if the container is running.
+docker ps
+====================================================================================================================================================================================
+#Docker Delete Container.
+#Delete a container named kke-container, its running on App Server 3 in Stratos DC.
+
+
+//SOLUTION:
+#First verify if container is in running state.
+docker ps
+#If its in running state it's best to stop it before deleting it.
+docker stop kke-container
+docker rm kke-container
+#Verify if container is deleted.
+docker ps -a
+=====================================================================================================================================================================================
+#Docker Container Issue.
+#There is a static website running within a container named "nautilus", this container is on App Server 1.
+#Suddenly, we started facing some issues with the static website on App Server 1. Look into the issue to fix the same, you can find more details below:
+- Container's volume "/usr/local/apache2/htdocs" is mapped with the host's volume "/var/www/html".
+- The website should run on host port 8080 on App Server 1 i.e command curl http://localhost:8080/ should work on App Server 1.
+
+
+//SOLUTION:
+#There are a list of things to do to troubleshoot issues
+- Check if the Container is Running.
+- Verify the Volume Mapping.
+- Verify the Website's Content.
+- Check Port Mapping.
+- Test the Website.
+
+#To check if container is running
+docker ps
+docker ps -a [Incase the container is not running, Run: "docker start nautilus"]
+
+#To verify Volume Mapping.
+docker inspect nautilus
+
+#To verify website content.
+- Check the content of the static website on the host by navigating to the directory /var/www/html and verifying the HTML files and folders.
+
+#To check port mapping.
+docker ps -f nautilus --format "{{.Names}}\t{{.Ports}}"
+- it should give you an output like this "nautilus   0.0.0.0:8080->80/tcp"
+
+#To test the website.
+curl http://localhost:8080
+====================================================================================================================================================================================
+#Ansible Basic Playbook.
+#The playbook needs to be run on App Server 2 in Stratos DC, so inventory file needs to be updated accordingly.
+#The inventory file /home/thor/ansible/inventory seems to be having some issues.
+- Create a playbook "/home/thor/ansible/playbook.yml" and add a task to create an empty file "/tmp/file.txt" on App Server 2.
+- Run the playbook using command "ansible-playbook -i inventory playbook.yml" so please make sure the playbook works this way without passing any extra arguments.
+
+
+//SOLUTION:
+#First resolve the issue with the inventory file.
+- Make sure the inventory file is defined like this.
+stapp02 ansible_host=ip-address ansible_ssh_pass=password ansible_user=username
+#Navigate to the /home/thor/ansible/ directory to create the playbook.yml
+cd /home/thor/ansible/
+vi playbook.yml
+- Sample of the file can be found in this link ---> https://github.com/mightygull/Ansible-Playbooks/blob/main/create%20an%20empty%20file.yml
+#Run the Playbook.
+ansible-playbook -i inventory playbook.yml
+================================================================================================================================================================================
+#Ansible Inventory Update.
+#Create an ini type Ansible inventory file /home/thor/playbook/inventory on jump host.
+#Add App Server 1 in this inventory along with required variables that are needed to make it work.
+#The inventory hostname of the host should be the server name as per the wiki, for example stapp01 for app server 1 in Stratos DC.
+
+
+//SOLUTION:
+#Navigate to the /home/thor/playbook/ directory on the Jump Server.
+cd /home/thor/playbook/
+vi inventory
+- Add the below line into the in file and save and exit.
+stapp01 ansible_host=ip-address ansible_ssh_pass=password ansible_user=username
+#Apply playbook.
+ansible-playbook -i inventory playbook.yml
+========================================================================================================================================================================
