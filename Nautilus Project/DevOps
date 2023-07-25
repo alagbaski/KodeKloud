@@ -1,3 +1,16 @@
+#Create Namespaces in Kubernetes Cluster.
+#Create a namespace named "dev" and create a POD under it; name the pod "dev-nginx-pod" and use nginx image with latest tag only and remember to mention tag i.e nginx:latest.
+
+//SOLUTION:
+#Create the Namespace.
+kubectl create namespace dev
+#Create the Pod.
+#Create a .yaml file, the sample of the file can be found in the link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Create%20a%20Pod%20under%20a%20Namespace.yaml
+#Apply the .yaml file to create the POD as per task requirements.
+kubectl apply -f filename.yaml
+#Verify that the Pod has been created and is running.
+kubectl get pods -n dev
+===============================================================================================================================================================================
 #Ansible Copy Module.
 #On jump host create an inventory file "/home/thor/ansible/inventory" and add all application servers as managed nodes.
 #On jump host create a playbook "/home/thor/ansible/playbook.yml" to copy "/usr/src/sysops/index.html" file to all application servers at location "/opt/sysops".
