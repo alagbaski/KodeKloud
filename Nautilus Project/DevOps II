@@ -390,3 +390,18 @@ stapp01 ansible_host=ip-address ansible_ssh_pass=password ansible_user=username
 #Apply playbook.
 ansible-playbook -i inventory playbook.yml
 ========================================================================================================================================================================
+#Set Limits for Resources in Kubernetes.
+#Create a pod named httpd-pod and a container under it named as httpd-container.
+#Use "httpd" image with latest tag only and remember to mention tag i.e "httpd:latest" and set the following limits:
+- Requests: Memory: 15Mi, CPU: 100m
+- Limits: Memory: 20Mi, CPU: 100m
+
+
+//SOLUTION
+#Create a mainfest file to execute the task according to task requirments
+- Sample of the file can be found in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Set%20Limits%20in%20Kuber%20Cluster.yaml
+#Apply the file in the kubernetes cluster.
+kubectl apply -f filename.yaml
+#Verify if pod is runninng.
+kubectl get pods
+============================================================================================================================================================================
