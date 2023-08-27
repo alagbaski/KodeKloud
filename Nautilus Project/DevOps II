@@ -405,3 +405,31 @@ kubectl apply -f filename.yaml
 #Verify if pod is runninng.
 kubectl get pods
 ============================================================================================================================================================================
+#Rolling Updates in Kubernetes.
+#The Nautilus DevOps team has created an image nginx:1.18 with the latest changes.
+#Perform a rolling update for this application and incorporate "nginx:1.18" image.
+#The deployment name is "nginx-deployment", also make sure all pods are up and running after the update.
+
+
+//SOLUTION
+#Update the Deployment YAML with the new nginx:1.18 image.
+#If you are not sure where the YAML file is located you can modify the deployment by running:
+kubectl edit deployment nginx-deployment
+#This will open the YAML file in your default editor. Look for the "spec.template.spec.containers" section and update the image.
+- This is what the section in text editor looks like.
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:1.17
+      ports:
+        - containerPort: 80
+
+#Save the changes and close the editor.
+#Ensure that the deployment is successful and all pods are running.
+kubectl rollout status deployment/nginx-deployment
+kubectl get pod
+#If you can't find the existing YAML file for the deployment you can recreate it using the following command:
+kubectl create deployment nginx-deployment --image=nginx:1.18 --dry-run=client -o yaml > nginx-deployment.yaml
+#Apply the YAML file.
+kubectl apply -f filename.yaml
+============================================================================================================================================================================================================
