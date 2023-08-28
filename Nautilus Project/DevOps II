@@ -433,3 +433,29 @@ kubectl create deployment nginx-deployment --image=nginx:1.18 --dry-run=client -
 #Apply the YAML file.
 kubectl apply -f filename.yaml
 ============================================================================================================================================================================================================
+#Kubernetes Time Check Pod.
+#Create a pod called "time-check" in the "xfusion" namespace. This pod should run a container called "time-check", container should use the "busybox" image with latest tag i.e busybox:latest.
+#Create a config map called "time-config" with the data "TIME_FREQ=9" in the same namespace.
+#The time-check container should run the command: while true; do date; sleep $TIME_FREQ;done and should write the result to the location "/opt/data/time/time-check.log".
+#Remember you will also need to add an environmental variable "TIME_FREQ" in the container, which should pick value from the config map "TIME_FREQ" key.
+#Create a volume called "log-volume" and mount the same on "/opt/data/time" within the container.
+
+
+//SOLUTION
+#Navigate to the Kubernetes Utility Server and create a Kubernetes pod with a specific configuration.
+- You can find the sample of the YAML mainfest in this link ---> https://github.com/mightygull/Yaml-Manifest-Files/blob/main/Kubernetes%20Time%20Check%20Pod.yaml
+#Apply the YAML file after creating it.
+kubectl apply -f filename.yaml
+#Verify the task execution.
+- Check Namespace Creation:
+kubectl get namespaces
+- Check ConfigMap Creation:
+kubectl get configmap -n xfusion
+kubectl describe configmap time-config -n xfusion
+- Check Pod Creation:
+kubectl get pods -n xfusion
+- Check Pod Logs:
+kubectl logs time-check -n xfusion
+- Verify Log File:
+kubectl exec -it time-check -n xfusion -- cat /opt/data/time/time-check.log
+=====================================================================================================================================================================================================================================
