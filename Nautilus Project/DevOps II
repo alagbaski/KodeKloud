@@ -432,9 +432,9 @@ kubectl get pod
 kubectl create deployment nginx-deployment --image=nginx:1.18 --dry-run=client -o yaml > nginx-deployment.yaml
 #Apply the YAML file.
 kubectl apply -f filename.yaml
-============================================================================================================================================================================================================
+====================================================================================================================================================================================
 #Kubernetes Time Check Pod.
-#Create a pod called "time-check" in the "xfusion" namespace. This pod should run a container called "time-check", container should use the "busybox" image with latest tag i.e busybox:latest.
+#Create a pod called "time-check" in the "xfusion" namespace, this pod should run a container called "time-check", container should use the "busybox" image with latest tag i.e busybox:latest.
 #Create a config map called "time-config" with the data "TIME_FREQ=9" in the same namespace.
 #The time-check container should run the command: while true; do date; sleep $TIME_FREQ;done and should write the result to the location "/opt/data/time/time-check.log".
 #Remember you will also need to add an environmental variable "TIME_FREQ" in the container, which should pick value from the config map "TIME_FREQ" key.
@@ -458,4 +458,32 @@ kubectl get pods -n xfusion
 kubectl logs time-check -n xfusion
 - Verify Log File:
 kubectl exec -it time-check -n xfusion -- cat /opt/data/time/time-check.log
-=====================================================================================================================================================================================================================================
+============================================================================================================================================================================
+#Troubleshoot Issue With Pods in Kubernetes.
+- One of the junior DevOps team members was working on to deploy a stack on Kubernetes cluster.
+- Somehow the pod is not coming up and its failing with some errors. We need to fix this as soon as possible.
+#There is a pod named "webserver" and the container under it is named as "httpd-container". It is using image "httpd:latest".
+#Also there is a sidecar container as well named "sidecar-container" which is using "ubuntu:latest" image.
+#Look into the issue and fix it, make sure pod is in running state and you are able to access the app.
+
+
+//SOLUTION
+#Navigate to the Kubernetes Utility Server and try finding out why the pod is failing to run.
+kubectl get pods
+#Or can as well check pod logs.
+kubectl logs -f webserver -c httpd-container
+kubectl logs -f webserver -c sidecar-container
+#Kindly note the "STATUS" of the pod in this case it is "ImagePullBackOff".
+#We could check image availability using "docker" command.
+docker pull httpd:latest
+docker pull ubuntu:latest
+#But since docker is not installed in our enviroment we have to troubleshoot using kubernetes service.
+#To get detailed logs of the image pulling process.
+kubectl logs -f -c httpd-container -n <namespace> $(kubectl get pods -n <namespace> -l app=webserver -o jsonpath='{.items[0].metadata.name}')
+#To see events related to the pod's scheduling and image pulling.
+kubectl describe pod
+#Observing the output, the pod image had a typo "httpd:latests" instead of "httpd:latest", so we updated the image of the pod.
+kubectl set image pod/webserver httpd-container=httpd:latest
+#Verify that the pod is now running.
+kubectl get pods
+=====================================================================================================================================================================================
