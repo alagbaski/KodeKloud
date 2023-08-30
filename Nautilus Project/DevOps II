@@ -487,3 +487,27 @@ kubectl set image pod/webserver httpd-container=httpd:latest
 #Verify that the pod is now running.
 kubectl get pods
 =====================================================================================================================================================================================
+#Update an Existing Deployment in Kubernetes.
+#We already have a deployment named "nginx-deployment" and service named "nginx-service".
+#Some changes need to be made in this deployment and service, do not delete the deployment and service.
+- Change the service nodeport from "30008" to "32165".
+- Change the replicas count from "1" to "5".
+- Change the image from "nginx:1.19" to "nginx:latest".
+
+
+//SOLUTION
+#Navigate to the kubernetes server, the task can be executed in two different ways.
+- First procedure.
+#Edit service node port and deployment.
+kubectl edit service nginx-service
+kubectl edit deployment nginx-deployment
+
+- Second procedure.
+#Incase you want to update the YAML file and it is not provided.
+kubectl get deployment nginx-deployment -o yaml > new-deployment.yaml
+kubectl get service nginx-service -o yaml > new-service.yaml
+
+#After updating/modifying the new file then apply in the order. 
+kubectl apply -f new-service.yaml
+kubectl apply -f new-deployment.yaml
+===========================================================================================================================================================================
